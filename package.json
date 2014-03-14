@@ -23,7 +23,10 @@
     "jade":            "*",
     "express-less":    "*",
     "request":         "*",
-    "express-session": "*"
+    "express-session": "*",
+    "passport":        "*",
+    "passport-facebook": "*",
+    "gravatar":        "*"
   },
   "devDependencies": {
     "grunt":                "*",

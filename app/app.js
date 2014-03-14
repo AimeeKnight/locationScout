@@ -2,17 +2,21 @@
 
 var dbname = process.env.DBNAME;
 var port = process.env.PORT || 4000;
-
 var express    = require('express');
 var less       = require('express-less');
 var session    = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var initMongo  = require('./lib/init-mongo');
 var initRoutes = require('./lib/init-routes');
+var passport = require('passport');
+
+
 
 var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+
 
 /* --- pipeline begins */
 app.use(initMongo.connect);
@@ -29,6 +33,8 @@ app.use(express.session({
   secret: 'change-this-to-a-super-secret-message',
   cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 /* --- pipeline ends   */
 
