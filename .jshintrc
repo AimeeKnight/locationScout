@@ -1,0 +1,23 @@
+{
+  "devel": true,
+  "debug": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": "vars",
+  "strict": true,
+  "trailing": true,
+  "node": true,
+  "browser": true,
+  "jquery": true,
+  "validthis": true,
+  "globals": {"_":true, "moment":true, "describe":true, "it":true, "before":true, "after":true, "beforeEach":true, "afterEach":true}
+}
+
