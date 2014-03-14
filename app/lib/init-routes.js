@@ -34,14 +34,15 @@ function load(app, fn){
   ));
 
   var home = require('../routes/home');
-  //var users = require('../routes/users');
+  var users = require('../routes/users');
   //var listings = require('../routes/listings');
 
   app.get('/', d, home.index);
   app.get('/auth/facebook', passport.authenticate('facebook'));
   app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                        failureRedirect: '/' }));
+  passport.authenticate('facebook', { successRedirect: '/users',
+                                      failureRedirect: '/' }));
+  app.get('/users', d, users.create);
   console.log('Routes Loaded');
   fn();
 }
