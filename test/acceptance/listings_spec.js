@@ -31,5 +31,13 @@ describe('listings', function(){
     });
   });
 
+  describe('GET /listings/new', function(){
+    it('should display page to create a new listing', function(done){
+      request(app)
+      .get('/listings/new')
+      .expect(200, done);
+    });
+  });
+
 //End//
 });

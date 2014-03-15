@@ -41,3 +41,9 @@ User.findById = function(id, fn){
     fn(_.extend(user, User.prototype));
   });
 };
+
+User.findbyFacebookId = function(fbId, fn){
+  users.findOne({facebookId:fbId}, function(err, user){
+    fn(_.extend(user, User.prototype));
+  });
+};

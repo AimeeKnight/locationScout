@@ -62,11 +62,17 @@ Listing.findByOwnerId = function(id, fn){
   });
 };
 
-Listing.findReservationsByArtistId = function(id, fn){
-  var _id2 = new Mongo.ObjectID(id);
-  var reservations =  _.filter(this.reservations, { 'artistId': _id2});
-  console.log(reservations);
-  fn(reservations);
+// id === ListingId
+// id2 === ArtistId
+Listing.findReservationsByArtistId = function(id, id2, fn){
+  var _id2 = new Mongo.ObjectID(id2);
+  Listing.findById(id, function(listing){
+
+    var reservations =  _.filter(listing.reservations, { 'artistId': _id2});
+    console.log(reservations);
+    fn(reservations);
+
+  });
 };
 
 Listing.findByGeo = function(query, fn){

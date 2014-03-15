@@ -128,7 +128,7 @@ describe('Listing', function(){
   describe('.findReservationsByArtistId', function(){
     it('should return all reservations with a given artistId', function(done){
       l1.reserveListing('111111111111111111111111','1987-02-27',  function(count){
-        l1.findReservationsByArtistId('111111111111111111111111',  function(reservations){
+        Listing.findReservationsByArtistId(listing1Id, '111111111111111111111111',  function(reservations){
           expect(reservations[0].artistId.toString()).to.equal('111111111111111111111111');
           done();
         });
