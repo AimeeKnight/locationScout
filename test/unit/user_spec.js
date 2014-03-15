@@ -70,8 +70,8 @@ describe('User', function(){
   describe('.findByFacebookId', function(){
     it('should find a user by fb ID', function(done){
       u2.insert(function(){
-        User.findByFacebookId(ret._id.toString, function(ret){
-          expect(ret.facebookId).to.be('1234');
+        User.findByFacebookId(u2.facebookId, function(ret){
+          expect(ret.facebookId).to.equal('1234');
           done();
         });
       });

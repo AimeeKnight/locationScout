@@ -7,6 +7,10 @@ var Listing = require('../models/listing');
 //var Mongo = require('mongodb');
 //var _ = require('lodash');
 
+exports.new = function(req, res){
+  res.render('listings/new', {title:'whatever'});
+  console.log('<><><><><><><><>');
+};
 
 exports.index = function(req, res){
   //possibly this function should do a findByGeo right away, dont know
@@ -19,6 +23,10 @@ exports.index = function(req, res){
   });
 };
 
-exports.new = function(req, res){
-  res.render('listings/new');
+exports.show = function(req, res){
+  res.render('listings/show', {title:'Listings Index Page'});
+};
+
+exports.create = function(req, res){
+  res.redirect('users/' + req.session.userId, {title:'Random title'});
 };
