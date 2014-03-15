@@ -62,13 +62,13 @@ function load(app, fn){
   var listings = require('../routes/listings');
 
   app.get('/', d, home.index);
-  app.post('/listings/rent/:id', d, listings.rent);
+  app.get('/listings', d, listings.index);
+  app.post('/listings', d, listings.create);
   app.get('/listings/new', d, listings.new);
   app.get('/listings/filter', d, listings.new);
   app.get('/listings/:id', d, listings.show);
   app.del('/listings/:id', d, listings.destroy);
-  app.get('/listings', d, listings.index);
-  app.post('/listings', d, listings.create);
+  app.post('/listings/rent/:id', d, listings.rent);
   app.get('/users', d, users.create);
   app.get('/users/:id', d, users.show);
 
