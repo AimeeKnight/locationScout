@@ -67,4 +67,15 @@ describe('User', function(){
     });
   });
 
+  describe('.findByFacebookId', function(){
+    it('should find a user by fb ID', function(done){
+      u2.insert(function(){
+        User.findByFacebookId(ret._id.toString, function(ret){
+          expect(ret.facebookId).to.be('1234');
+          done();
+        });
+      });
+    });
+  });
+
 });

@@ -58,8 +58,15 @@ function load(app, fn){
   app.get('/', d, home.index);
   app.get('/users', d, users.create);
   app.get('/users/:id', d, users.show);
+
   app.get('/listings', d, listings.index);
+  app.post('/listings', d, listings.create);
   app.get('/listings/new', d, listings.new);
+  app.get('/listings/filter', d, listings.new);
+  app.post('/listings/rent/:id', d, listings.rent);
+  app.del('/listings/:id', d, listings.destroy);
+  app.get('/listings/:id', d, listings.show);
+
 
   //facebook auth//
   app.get('/auth/facebook', passport.authenticate('facebook'));

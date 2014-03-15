@@ -39,5 +39,20 @@ describe('listings', function(){
     });
   });
 
+  describe('GET /listings/:id', function(){
+    it('should show the the profile of a listing', function(done){
+      var l1 = new Listing({name:'Listing2',
+                         ownerId:'222222222222222222222222',
+                         lat: '32',
+                         lng: '32',
+                         address: '123 Main St.',
+                         amount: 100});
+      l1.insert();
+      request(app)
+      .get('listings/show/222222222222222222222222')
+      .expect(200, done);
+    });
+  });
+
 //End//
 });

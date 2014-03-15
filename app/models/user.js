@@ -42,7 +42,7 @@ User.findById = function(id, fn){
   });
 };
 
-User.findbyFacebookId = function(fbId, fn){
+User.findByFacebookId = function(fbId, fn){
   users.findOne({facebookId:fbId}, function(err, user){
     fn(_.extend(user, User.prototype));
   });
