@@ -1,9 +1,9 @@
 'use strict';
 
 var d = require('../lib/request-debug');
-//var passport = require('passport');
+var passport = require('passport');
 var initialized = false;
-//var FacebookStrategy = require('passport-facebook').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 module.exports = function(req, res, next){
   if(!initialized){
@@ -15,8 +15,7 @@ module.exports = function(req, res, next){
 };
 
 function load(app, fn){
-  /*
-  //var User = require('../models/user');
+  var User = require('../models/user');
   passport.serializeUser(function(user, done){
     done(null, user);
   });
@@ -32,16 +31,16 @@ function load(app, fn){
     },
 
     function(accessToken, refreshToken, profile, done){
-      /*
+   
       process.nextTick(function() {
 
         User.findByFacebookId(profile.id, function(user){
           if(user){
             return done(null, user);
           }else{
-            var newUser = new User();
+            var newUser = new User({});
             newUser.facebookId = profile.id;
-            newUser.facebook.name  = profile.name.givenName;
+            newUser.name = profile.displayName;
             newUser.insert(function(user){
               return done(null, user);
             });
@@ -50,18 +49,33 @@ function load(app, fn){
         });
 
       });
-      */
-      /*
-      done(null, profile);
+     
+      //console.log(profile);
+      //done(null, profile);
     }
   ));
-  */
 
   var home = require('../routes/home');
   var users = require('../routes/users');
   var listings = require('../routes/listings');
 
   app.get('/', d, home.index);
+
+  //facebook auth//
+  app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+  app.get('/auth/facebook', passport.authenticate('facebook'));
+  app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
   app.get('/listings', d, listings.index);
   app.post('/listings', d, listings.create);
   app.get('/listings/new', d, listings.new);
@@ -74,13 +88,6 @@ function load(app, fn){
 
 
 
-  //facebook auth//
-  /*
-  app.get('/auth/facebook', passport.authenticate('facebook'));
-  app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/' }));
-  */
   fn();
 }
 

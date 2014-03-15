@@ -58,14 +58,28 @@ describe('listings', function(){
       .expect(200, done);
     });
   });
-
-  describe('POST /listings/', function(){
-    it('should post listing and redirect to user profile', function(done){
+  describe('DELETE /listings/:id', function(){
+    it('should delete a specific item from the database', function(done){
       request(app)
-      .post('/listings')
+      .del('/listings/' + listingId)
       .expect(302, done);
     });
   });
-
+/*
+  describe('AUTHORIZED', function(){
+    beforeEach(function(done){
+        cookie = res.headers['set-cookie'];
+        done();
+      });
+    });
+    describe('POST /listings/', function(){
+      it('should post listing and redirect to user profile', function(done){
+        request(app)
+        .post('/listings')
+        .expect(302, done);
+      });
+    });
+  });
+*/
 //End//
 });
