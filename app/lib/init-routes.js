@@ -43,6 +43,7 @@ function load(app, fn){
   passport.authenticate('facebook', { successRedirect: '/users',
                                       failureRedirect: '/' }));
   app.get('/users', d, users.create);
+  app.get('/users/:id', users.show);
   console.log('Routes Loaded');
   fn();
 }

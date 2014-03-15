@@ -30,7 +30,6 @@ Listing.prototype.reserveListing = function(id2, reservedDate, fn){
   reservedDate = new Date(reservedDate);
   var updateObj = {artistId:_id2, reservedDate:reservedDate};
   this.reservations.push(updateObj);
-  
   listings.update({_id:this._id}, this, function(err, count){
     fn(count);
   });
@@ -63,9 +62,8 @@ Listing.findByOwnerId = function(id, fn){
   });
 };
 
-Listing.prototype.findReservationsByArtistId = function(id, fn){
+Listing.findReservationsByArtistId = function(id, fn){
   var _id2 = new Mongo.ObjectID(id);
-  
   var reservations =  _.filter(this.reservations, { 'artistId': _id2});
   console.log(reservations);
   fn(reservations);
