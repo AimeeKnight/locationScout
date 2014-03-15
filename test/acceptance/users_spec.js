@@ -6,7 +6,7 @@ var request = require('supertest');
 //var expect = require('chai').expect;
 //var fs = require('fs');
 //var exec = require('child_process').exec;
-var User, u1;
+var User, u1, cookie;
 
 describe('users', function(){
 
@@ -47,7 +47,7 @@ describe('users', function(){
   });
 
   describe('GET users/:id', function(){
-    it('should render the user profile page', function(){
+    it('should render the user profile page', function(done){
       request(app)
       .get('/user/123456')
       .set('cookie', cookie)
