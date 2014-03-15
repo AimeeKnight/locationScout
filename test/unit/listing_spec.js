@@ -19,7 +19,7 @@ describe('Listing', function(){
   });
 
   beforeEach(function(done){
-    var testdir = __dirname + '/../../app/static/img/test*';
+    var testdir = __dirname + '/../../app/static/img/listings/test*';
     var cmd = 'rm -rf ' + testdir;
 
     exec(cmd, function(){
@@ -31,7 +31,6 @@ describe('Listing', function(){
       global.nss.db.dropDatabase(function(err, result){
         l1 = new Listing({name:'Listing1',
                           ownerId:'222222222222222222222222',
-                          artistId:'333333333333333333333333',
                           lat: '32',
                           lng: '32',
                           address: '123 Main St.',
@@ -48,7 +47,6 @@ describe('Listing', function(){
     it('should create a new Listing', function(){
       var l1 = new Listing({name:'Listing2',
                          ownerId:'222222222222222222222222',
-                         artistId:'333333333333333333333333',
                          lat: '32',
                          lng: '32',
                          address: '123 Main St.',
@@ -57,15 +55,13 @@ describe('Listing', function(){
       expect(l1.name).to.equal('Listing2');
       expect(l1.address).to.equal('123 Main St.');
       expect(l1.ownerId).to.be.instanceof(Mongo.ObjectID);
-      expect(l1.artistId).to.be.instanceof(Mongo.ObjectID);
     });
   });
 
   describe('#insert', function(){
     it('should insert a new listing', function(done){
-      var l2 = new Listing({name:'Listing3',
+      var l2 = new Listing({name:'testListing3',
                          ownerId:'222222222222222222222222',
-                         artistId:'333333333333333333333333',
                          lat: '32',
                          lng: '32',
                          address: '123 Main St',
@@ -76,7 +72,7 @@ describe('Listing', function(){
       l2.insert(function(listing2){
         console.log(listing2);
         expect(listing2._id).to.be.instanceof(Mongo.ObjectID);
-        expect(listing2.cover).to.equal('/img/listings/listing3/cover.jpg');
+        expect(listing2.cover).to.equal('/img/listings/testlisting3/cover.jpg');
         done();
       });
     });
@@ -95,7 +91,6 @@ describe('Listing', function(){
     it('should find all listing ', function(done){
       var l2 = new Listing({name:'Listing2',
                          ownerId:'222222222222222222222222',
-                         artistId:'333333333333333333333333',
                          lat: '32',
                          lng: '32',
                          address: '123 Main St.',
@@ -118,6 +113,29 @@ describe('Listing', function(){
       });
     });
   });
+
+  describe('#reserveListing', function(){
+    it('should add a reservation object to the listings reservation array', function(done){
+      l1.reserveListing('111111111111111111111111','1987-02-27',  function(count){
+        expect(count).to.equal(1);
+        expect(l1.reservations).to.have.length(1);
+        expect(l1.reservations[0].reservedDate).to.be.instanceof(Date);
+        done();
+      });
+    });
+  });
+
+  describe('.findReservationsByArtistId', function(){
+    it('should return all reservations with a given artistId', function(done){
+      l1.reserveListing('111111111111111111111111','1987-02-27',  function(count){
+        l1.findReservationsByArtistId('111111111111111111111111',  function(reservations){
+          expect(reservations[0].artistId.toString()).to.equal('111111111111111111111111');
+          done();
+        });
+      });
+    });
+  });
+
 
 });
 

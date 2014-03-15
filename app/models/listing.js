@@ -6,6 +6,7 @@ var listings = global.nss.db.collection('listings');
 var Mongo = require('mongodb');
 var fs = require('fs');
 var path = require('path');
+var _ = require('lodash');
 
 function Listing(listing){
   this.name = listing.name;
@@ -13,13 +14,25 @@ function Listing(listing){
   this.address = listing.address;
   this.coordinates = [listing.lat * 1, listing.lng * 1];
   this.ownerId = Mongo.ObjectID(listing.ownerId);
-  this.artistId = Mongo.ObjectID(listing.artistId);
-  this.reservedDates = listing.reservedDates || [];
+  this.reservations = [];
+  //this.artistIds = [];
 }
 
 Listing.prototype.insert = function(fn){
   listings.insert(this, function(err, records){
     fn(records[0]);
+  });
+};
+
+// id2 === artistId;
+Listing.prototype.reserveListing = function(id2, reservedDate, fn){
+  var _id2 = new Mongo.ObjectID(id2);
+  reservedDate = new Date(reservedDate);
+  var updateObj = {artistId:_id2, reservedDate:reservedDate};
+  this.reservations.push(updateObj);
+  
+  listings.update({_id:this._id}, this, function(err, count){
+    fn(count);
   });
 };
 
@@ -50,11 +63,12 @@ Listing.findByOwnerId = function(id, fn){
   });
 };
 
-Listing.findByArtistId = function(id, fn){
-  var _id = new Mongo.ObjectId(id);
-  listings.findOne({_id:_id}, function(owner){
-    fn(owner);
-  });
+Listing.prototype.findReservationsByArtistId = function(id, fn){
+  var _id2 = new Mongo.ObjectID(id);
+  
+  var reservations =  _.filter(this.reservations, { 'artistId': _id2});
+  console.log(reservations);
+  fn(reservations);
 };
 
 Listing.findByGeo = function(query, fn){
