@@ -28,12 +28,22 @@ exports.show = function(req, res){
 
 exports.create = function(req, res){
   var listing = new Listing(req.body);
+  listing.ownerId = req.session.userId;
   listing.insert(function(data){
     console.log(data);
     res.redirect('/');
   });
   //res.redirect('users/' + req.session.userId, {title:'Random title'});
   
+};
+
+exports.reserve = function(req, res){
+  //listing id, date, artist name
+  Listing.findById(req.body.listingId, function(listing){
+    listing.reserveListing(req.body.artistName, req.body.arrtistId , req.body.reservedDate, function(){
+      res.redirect('/');
+    });
+  });
 };
 
 exports.destroy = function(req, res){

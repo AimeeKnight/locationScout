@@ -2,12 +2,13 @@
 'use strict';
 
 var User = require('../models/user');
-//var Listing = require('../models/listing');
+var Listing = require('../models/listing');
+var gravatar  = require('gravatar');
 
 exports.create = function(req, res){
   res.redirect('/');
 };
-/*
+
 exports.show = function(req, res){
 
   User.findbyId(req.params.id, function(record){
@@ -17,16 +18,23 @@ exports.show = function(req, res){
     //should be easier, but there could be issues Im not thinking abouto
 
     if(record.role === 'artist'){
-      Listing.findReservationsByArtistId(record._id.toString(), function(listings){
-        res.render('users/artistShow', {listings:listings, user:record});
+      Listing.findReservationsByArtistId(record._id.toString(), function(reservations){
+        Listing.findByArtistId(record._id.toString(), function(listings){
+          var url = gravatar.url(record.email, {s: '200', r: 'pg'});
+
+          res.render('users/artistShow', {reservations:reservations, listings:listings,  user:record, gravatar:url});
+        });
       });
     }else{
       Listing.findByOwnerId(record._id.toString(), function(listings){
-        res.render('users/ownerShow', {listings:listings, user:record});
+        res.render('users/ownerShow', {listings:listings, owner:record});
       });
     }
-    */
+  });
+};
 
+
+/*
 exports.show = function(req, res){
   User.findById(req.session.userId, function(user){
     //var url = gravatar.url(user.email, {s: '200', r: 'pg'});
@@ -36,7 +44,7 @@ exports.show = function(req, res){
     //res.render('users/show', {user:user});
   });
 };
-
+*/
 exports.logout = function(req, res){
   req.session.destroy(function(){
     res.redirect('/');

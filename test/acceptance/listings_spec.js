@@ -58,6 +58,7 @@ describe('listings', function(){
       .expect(200, done);
     });
   });
+
   describe('DELETE /listings/:id', function(){
     it('should delete a specific item from the database', function(done){
       request(app)
@@ -65,6 +66,19 @@ describe('listings', function(){
       .expect(302, done);
     });
   });
+
+  describe('POST /listings/reserve', function(){
+    it('should create a reservation on a listing', function(done){
+      request(app)
+      .post('/listings/reserve')
+      .field('artistName', 'Jay Knight')
+      .field('artistId', '148111111111111111111111')
+      .field('listingId', listingId)
+      .field('reservedDate', '04/20/14')
+      .expect(302, done);
+    });
+  });
+
 /*
   describe('AUTHORIZED', function(){
     beforeEach(function(done){

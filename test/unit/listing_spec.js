@@ -87,6 +87,26 @@ describe('Listing', function(){
     });
   });
 
+  describe('.findByOwnerId', function(){
+    it('should find by listing owner id ', function(done){
+      Listing.findByOwnerId('222222222222222222222222', function(listings){
+        expect(listings[0].ownerId.toString()).to.equal('222222222222222222222222');
+        done();
+      });
+    });
+  });
+
+  describe('.findByArtistId', function(){
+    it('should find by listing artist id ', function(done){
+      l1.reserveListing('Some artist', '111111111111111111111111','1987-02-27',  function(count){
+        Listing.findByArtistId('111111111111111111111111', function(listings){
+          expect(listings[0].artistIds[0].toString()).to.equal('111111111111111111111111');
+          done();
+        });
+      });
+    });
+  });
+
   describe('.findAll', function(){
     it('should find all listing ', function(done){
       var l2 = new Listing({name:'Listing2',
@@ -116,7 +136,7 @@ describe('Listing', function(){
 
   describe('#reserveListing', function(){
     it('should add a reservation object to the listings reservation array', function(done){
-      l1.reserveListing('111111111111111111111111','1987-02-27',  function(count){
+      l1.reserveListing('someDude','111111111111111111111111','1987-02-27',  function(count){
         expect(count).to.equal(1);
         expect(l1.reservations).to.have.length(1);
         expect(l1.reservations[0].reservedDate).to.be.instanceof(Date);
@@ -127,8 +147,8 @@ describe('Listing', function(){
 
   describe('.findReservationsByArtistId', function(){
     it('should return all reservations with a given artistId', function(done){
-      l1.reserveListing('111111111111111111111111','1987-02-27',  function(count){
-        Listing.findReservationsByArtistId(listing1Id, '111111111111111111111111',  function(reservations){
+      l1.reserveListing('someDude', '111111111111111111111111','1987-02-27',  function(count){
+        Listing.findReservationsByArtistId('111111111111111111111111',  function(reservations){
           expect(reservations[0].artistId.toString()).to.equal('111111111111111111111111');
           done();
         });

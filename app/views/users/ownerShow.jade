@@ -1,0 +1,24 @@
+extends ../shared/template
+
+block content
+  input#ownerId(type='hidden', value= owner._id)
+  .row
+    .small-12.columns
+      div.panel
+        img(src= owner.userPhoto).user-img
+        h1= owner.name
+        h4= owner.email
+  .row
+    .small-12.columns
+      for each listing in listings
+        input.listingId(type='hidden', value=listng._id)
+        ul
+          li =listing.name
+          li =lisitng.amount
+          li =lisitng.adress
+        for each reservation in listing.reservations
+          ul
+            li = reservation.artistName
+            //li = reservation.reservedDate.toDateString();
+          
+

@@ -1,6 +1,61 @@
 extends ../shared/template
 
 block content
-  h1= title
-  a(href="/auth/facebook")
-    button.radius Login With Facebook
+  .row
+    .small-12.columns
+      h1.panel= listing.name
+      label#item-id.hide= listing._id
+
+  .row
+    .small-12.columns
+      .small-4.columns
+        img(src= item.photo).item-img-large
+      .small-8.columns
+        .item
+          h3 Item Description:
+            p.inline= item.description
+          h3 Tags:
+            each tag in item.tags
+              .tags.button.tiny.radius #{tag}
+          h3 Owner Contact Info:
+          p= originalUser.email
+
+  .row
+    .small-12.columns#current-bids
+      h1 Current Bids!
+      ul
+        each item in bidItems
+          li
+            a(href='/items/' + item._id)= item.name
+            img(src= item.photo).item-img-small
+
+  .row
+    .small-12.columns
+      .small-5.columns
+        if loggedInUser == originalUser._id.toString()
+          if bidItems.length != 0
+            select#selectWinner
+              each bid in bidItems
+                option(value= bid._id)= bid.name
+            button#winning-item.small.radius.alert Select Winner
+
+  .row
+    .small-4.columns
+        //form(action='/items/' + item._id, method='post')
+          //input(type='hidden', name='_method', value='delete', required)
+          //button.alert.small.radius Remove
+    .small-8.columns
+
+  .row#offers
+    .small-4.columns
+      if loggedInUser !== originalUser._id.toString()
+        select#itemSelect
+          each thing in userItems
+            option(value= thing._id)= thing.name
+        button#offer-item.small.radius Make Offer
+    .small-4.columns
+        div
+        #alert-box.hide(data-alert class="alert-box success radius") Successfully made a bid!
+          a.close(href="#")&times;
+    .small-4.columns
+      //each item in item.bids

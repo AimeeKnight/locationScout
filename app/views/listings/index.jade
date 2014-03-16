@@ -15,7 +15,7 @@ block content
         span= listing.name
         span= listing.amount
         script.
-          console.log(#{listing})
+          console.log(#{listing.coordinates})
           var place = {};
           place.address = '#{listing.name}';
           place.lat = #{listing.coordinates[0]};
@@ -23,3 +23,4 @@ block content
           places.push(place);
 block scripts
   script(src='/js/source/listings.js')
+

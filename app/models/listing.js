@@ -11,11 +11,12 @@ var _ = require('lodash');
 function Listing(listing){
   this.name = listing.name;
   this.amount = listing.amount * 1;
+  this.description = listing.description;
   this.address = listing.address;
   this.coordinates = [listing.lat * 1, listing.lng * 1];
   this.ownerId = Mongo.ObjectID(listing.ownerId);
   this.reservations = [];
-  //this.artistIds = [];
+  this.artistIds = [];
 }
 
 Listing.prototype.insert = function(fn){
@@ -25,11 +26,13 @@ Listing.prototype.insert = function(fn){
 };
 
 // id2 === artistId;
-Listing.prototype.reserveListing = function(id2, reservedDate, fn){
+// var artistName = req.user.name
+Listing.prototype.reserveListing = function(artistName, id2, reservedDate, fn){
   var _id2 = new Mongo.ObjectID(id2);
   reservedDate = new Date(reservedDate);
-  var updateObj = {artistId:_id2, reservedDate:reservedDate};
+  var updateObj = {artistName: artistName, artistId:_id2, reservedDate:reservedDate};
   this.reservations.push(updateObj);
+  this.artistIds.push(_id2);
   listings.update({_id:this._id}, this, function(err, count){
     fn(count);
   });
@@ -42,10 +45,11 @@ Listing.deleteById = function(id, fn){
   });
 };
 
+//input: listing id, output listing object
 Listing.findById = function(id, fn){
   var _id = new Mongo.ObjectID(id);
   listings.findOne({_id:_id}, function(err, record){
-    fn(record);
+    fn(_.extend(record, Listing.prototype));
   });
 };
 
@@ -57,19 +61,31 @@ Listing.findAll = function(fn){
 
 Listing.findByOwnerId = function(id, fn){
   var _id = new Mongo.ObjectID(id);
-  listings.findOne({_id:_id}, function(owner){
-    fn(owner);
+  listings.find({ownerId:_id}).toArray(function(err, listings){
+    fn(listings);
   });
 };
 
-// id === ListingId
-// id2 === ArtistId
-Listing.findReservationsByArtistId = function(id, id2, fn){
-  var _id2 = new Mongo.ObjectID(id2);
-  Listing.findById(id, function(listing){
+//input one artistId, returns all listings that artist has reserved
+Listing.findByArtistId = function(id, fn){
+  var _id = new Mongo.ObjectID(id);
+  listings.find({artistIds: {$in: [_id]}}).toArray(function(err, listings){
+    fn(listings);
+  });
+};
 
-    var reservations =  _.filter(listing.reservations, { 'artistId': _id2});
-    console.log(reservations);
+//input one artistId, returns array of reservation objects for that artist
+Listing.findReservationsByArtistId = function(id, fn){
+  var reservations = [];
+  var _id = new Mongo.ObjectID(id);
+  Listing.findAll(function(listings){
+
+    listings.forEach(function(listing){
+      var singleListingReservations =  _.filter(listing.reservations, { 'artistId': _id});
+      reservations.push(singleListingReservations);
+    });
+
+    reservations = _.flatten(reservations);
     fn(reservations);
 
   });

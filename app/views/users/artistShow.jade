@@ -1,11 +1,12 @@
 extends ../shared/template
 
 block content
+  input(type='hiden', value= user._id.toString())
   .row
     .small-12.columns
       div.panel
-        img(src= user.userPhoto).user-img
-        h1= user.userName
+        img(src= gravatar).user-img
+        h1= user.name
         h4= user.email
   .row
     .small-6.columns
