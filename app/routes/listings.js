@@ -8,7 +8,7 @@ var Listing = require('../models/listing');
 //var _ = require('lodash');
 
 exports.new = function(req, res){
-  res.render('listings/new', {title:'whatever'});
+  res.render('listings/new');
 };
 
 exports.index = function(req, res){

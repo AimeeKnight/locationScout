@@ -19,3 +19,6 @@ LocationScout.js
 - TravisCI
 - Coveralls
 
+[![Build Status](https://travis-ci.org/AimeeKnight/locationScout.png)](https://travis-ci.org/AimeeKnight/locationScout)
+[![Dependency Status](https://gemnasium.com/AimeeKnight/locationScout.png)](https://gemnasium.com/AimeeKnight/locationScout)
+

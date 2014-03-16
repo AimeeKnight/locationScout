@@ -6,7 +6,8 @@ var request = require('supertest');
 //var expect = require('chai').expect;
 //var fs = require('fs');
 //var exec = require('child_process').exec;
-var User, u1, cookie;
+var User, u1;
+//var cookie;
 
 describe('users', function(){
 
@@ -21,7 +22,7 @@ describe('users', function(){
 
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
-      u1 = new User({name:'Knicos', facebookId:'Ahole'});
+      u1 = new User({name:'Chyld', facebookId:'bitch'});
       u1.insert(function(){
         u1.update('knicos@ahole.com', 'artist', function(){
           done();
@@ -46,13 +47,32 @@ describe('users', function(){
     });
   });
 
-  describe('GET users/:id', function(){
-    it('should render the user profile page', function(done){
+  /*
+  describe('AUTHORIZED', function(){
+    beforeEach(function(done){
       request(app)
-      .get('/user/123456')
-      .set('cookie', cookie)
-      .expect(200, done);
+      .get'/auth/facebook')
+      //.post('/login')
+      //.field('email', 'testsue@aol.com')
+      //.field('password', 'abcd')
+      .end(function(err, res){
+        cookie = res.headers['set-cookie'];
+        done();
+      });
+    });
+
+    describe('GET /users/:id', function(){
+      it('should login a user and show the user\'s profile page', function(done){
+        request(app)
+        .get('/users/' + u1._id)
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
     });
   });
-
+  */
+/////////////
 });
