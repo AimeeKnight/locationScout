@@ -27,12 +27,17 @@ exports.show = function(req, res){
 };
 
 exports.create = function(req, res){
-  res.redirect('users/' + req.session.userId, {title:'Random title'});
+  var listing = new Listing(req.body);
+  listing.insert(function(data){
+    console.log(data);
+    res.redirect('/');
+  });
+  //res.redirect('users/' + req.session.userId, {title:'Random title'});
+  
 };
 
 exports.destroy = function(req, res){
   Listing.deleteById(req.params.id, function(count){
     res.redirect('users/' + req.session.userId);
-    console.log('COUNT >>>>>>>>>>>>>>>> '+ count);
   });
 };

@@ -25,6 +25,10 @@ html(class='no-js', lang='en')
           li: a(href="/") Register
           li.divider
           li: a(href="/") Login
+          li.divider
+          li.has-form
+            form(action="/logout", method='post') 
+              button.tiny.alert.radius Logout
     .row
       .small-12.columns
         block content
@@ -34,4 +38,5 @@ html(class='no-js', lang='en')
     script(src='/js/vendor/lodash.js')
     script(src='/js/vendor/moment.js')
     script(src='/js/source/main.js')
-
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASdWkR5-KCdIHvddJunapbDGQ3SyGX2PQ&sensor=true")
+    block scripts

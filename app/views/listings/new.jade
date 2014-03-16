@@ -5,4 +5,15 @@ block content
 
   .row
     .small-6.small-centered.columns
-      form#newListingForm
+      form#newListingForm(action='/items', method='post', enctype='multipart/form-data')
+        label Name
+          input(name='name', type='text', autofocus=true, required)
+        label Day Rate
+          input(name='amount', type='text', placeholder='$$', required)
+        label Address
+          input(name='address', type='text', required)
+          input(name='lat', type='text')
+          input(name='lng', type='text')
+        label Dates Available
+          input(name='reservations', type='date', placeholder='sword, katana, awesome, metal', required)
+        button#createListingBtn.tiny.radius Create Listing

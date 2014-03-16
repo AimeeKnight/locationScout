@@ -1,6 +1,55 @@
 extends ../shared/template
 
 block content
-  h1= title
-  a(href="/auth/facebook")
-    button.radius Login With Facebook
+  .row
+    .small-12.columns
+      div.panel
+        img(src= user.userPhoto).user-img
+        h1= user.userName
+        h4= user.email
+  .row
+    .small-6.columns
+      h3.panel Locations List:
+      table
+        thead
+          th Item
+          th Photo
+          th Auction
+          th Delete
+        tbody
+          each location in locations
+            if item.available == false
+              tr
+                td: a(href='/items/' + item._id)= item.name
+                td: img(src= item.photo).user-image
+                td
+                  form(action='/items/toggle/' + item._id, method='post')
+                    input(type='hidden', name='_method', value='post')
+                    button.small.radius Add To Auction
+                td
+                  form(action='/items/' + item._id, method='post')
+                    input(type='hidden', name='_method', value='delete')
+                    button.alert.small.radius Delete
+    .small-6.columns
+      h3.panel Items for auction:
+      table
+        thead
+          th Item
+          th Photo
+          th Remove
+        tbody
+          each item in items
+            if item.available == true
+              tr
+                td: a(href='/items/' + item._id)= item.name
+                td: img(src= item.photo).item-img
+                td
+                  if item.bids.length === 0
+                    form(action='/items/toggle/' + item._id, method='post')
+                      input(type='hidden', name='_method', value='post')
+                      button.small.radius Remove From Auction
+                  else
+                    h3.num-bids Current bids: #{item.bids.length}
+  //form(action='/items/' + item._id, method='post')
+    //input(type='hidden', name='_method', value='delete')
+    //button.alert.small.radius Delete

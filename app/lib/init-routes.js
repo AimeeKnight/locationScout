@@ -85,6 +85,7 @@ function load(app, fn){
   app.post('/listings/rent/:id', d, listings.rent);
   app.get('/users', d, users.create);
   app.get('/users/:id', d, users.show);
+  app.post('/logout', d, users.logout);
 
 
 

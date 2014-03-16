@@ -30,7 +30,15 @@ exports.show = function(req, res){
 exports.show = function(req, res){
   User.findById(req.session.userId, function(user){
     //var url = gravatar.url(user.email, {s: '200', r: 'pg'});
+    if(user.role === 'owner')
+      Listing.findByOwnerId
 
     res.render('users/show', {user:user});
+  });
+};
+
+exports.logout = function(req, res){
+  req.session.destroy(function(){
+    res.redirect('/');
   });
 };

@@ -2,5 +2,14 @@ extends ../shared/template
 
 block content
   h1= title
-  a(href="/auth/facebook")
-    button.radius Login With Facebook
+  
+  .row
+    .small-6.small-centered.columns
+      form#infoForm
+        label Email
+          input(type='email', name='email', autofocus=true, required)
+        label Are you an Owner or Artist?
+          option#roleSelection(value='role')
+            select Owner
+            select Artist
+        button#updateBtn.tiny.radius Submit
