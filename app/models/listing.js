@@ -59,7 +59,7 @@ Listing.findByOwnerId = function(id, fn){
   var _id = new Mongo.ObjectID(id);
   listings.findOne({_id:_id}, function(owner){
     fn(owner);
-  });:
+  });
 };
 
 // id === ListingId
