@@ -24,6 +24,11 @@ _The folowing technologies were used in the creation of this app..._
 - Blanket
 - TravisCI
 - Coveralls
+- Gemnasium
+- Google API
+- Facebook API
+- Passport
+- OAuth
 
 [![Build Status](https://travis-ci.org/AimeeKnight/locationScout.png)](https://travis-ci.org/AimeeKnight/locationScout)
 [![Coverage Status](https://coveralls.io/repos/AimeeKnight/locationScout/badge.png)](https://coveralls.io/r/AimeeKnight/locationScout)
