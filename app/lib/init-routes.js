@@ -25,7 +25,6 @@ function load(app, fn){
     done(null, obj);
   });
 
-
   passport.use(new FacebookStrategy({
       clientID: '1430897753818675',
       clientSecret: 'a1a805afc58ab0421b780187acd29a66',
@@ -36,7 +35,7 @@ function load(app, fn){
    
       process.nextTick(function() {
 
-        User.findByFacebookId(profile.id, function(err, user){
+        User.findByFacebookId(profile.id.toString(), function(user){
           if(user){
             return done(null, user);
           }else{
@@ -60,7 +59,7 @@ function load(app, fn){
 
   //facebook auth//
   app.get('/auth/facebook', passport.authenticate('facebook'));
-  app.get('/auth/facebook/callback',
+  app.get('/auth/facebook/callback', d,
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
     //Successful authentication, redirect home.
@@ -77,7 +76,12 @@ function load(app, fn){
   app.get('/listings/:id', d, /*ensureAuthenticated, bounce,*/ listings.show);
   app.del('/listings/:id', d, /*ensureAuthenticated,*/ listings.destroy);
   app.get('/users/:id', d, /*ensureAuthenticated, bounce,*/ users.show);
-  app.post('/logout', d, users.logout);
+  //app.post('/logout', d, users.logout);
+  app.get('/logout', function(req, res){
+    req.session.destroy(function(){
+      res.redirect('/');
+    });
+  });
 
   fn();
 }

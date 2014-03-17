@@ -4,7 +4,7 @@ var Listing = require('../models/listing');
 //var User = require('../models/user');
 //var request = require('request');
 //var fs = require('fs');
-//var Mongo = require('mongodb');
+var Mongo = require('mongodb');
 //var _ = require('lodash');
 
 exports.new = function(req, res){
@@ -36,7 +36,7 @@ exports.show = function(req, res){
 
 exports.create = function(req, res){
   var listing = new Listing(req.body);
-  listing.ownerId = req.session.userId;
+  listing.ownerId = Mongo.ObjectID(req.session.passport.user._id);
   listing.addCover(req.files.cover.path);
   listing.insert(function(data){
     console.log(data);
@@ -57,6 +57,6 @@ exports.reserve = function(req, res){
 
 exports.destroy = function(req, res){
   Listing.deleteById(req.params.id, function(count){
-    res.redirect('users/' + req.session.userId);
+    res.redirect('users/' + req.session.passport.user._id);
   });
 };
