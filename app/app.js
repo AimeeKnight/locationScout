@@ -8,15 +8,13 @@ var session    = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var initMongo  = require('./lib/init-mongo');
 var initRoutes = require('./lib/init-routes');
+//var lookupUser = require('./lib/lookup-user');
 var passport = require('passport');
-
-
+//var bounceUser = require('./lib/bounce-user');
 
 var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-
-
 
 /* --- pipeline begins */
 app.use(initMongo.connect);
@@ -35,6 +33,8 @@ app.use(express.session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+//app.use(lookupUser);
+//app.use(bounceUser);
 app.use(app.router);
 /* --- pipeline ends   */
 

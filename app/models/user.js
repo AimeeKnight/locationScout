@@ -11,8 +11,8 @@ var _ = require('lodash');
 function User(user){
   this.name = user.name;
   this.facebookId = user.facebookId;
-  this.email = user.email || '';
-  this.role = user.role || '';
+  this.email = user.email || null;
+  this.role = user.role || null;
 }
 
 User.prototype.insert = function(fn){

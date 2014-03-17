@@ -5,7 +5,7 @@ block content
   .row
     .small-12.columns
       div.panel
-        img(src= owner.userPhoto).user-img
+        //img(src= owner.userPhoto).user-img
         h1= owner.name
         h4= owner.email
   .row
@@ -16,9 +16,9 @@ block content
           li =listing.name
           li =lisitng.amount
           li =lisitng.adress
+          li =lisitng.description
         for each reservation in listing.reservations
           ul
             li = reservation.artistName
             //li = reservation.reservedDate.toDateString();
-          
 

@@ -15,6 +15,7 @@ module.exports = function(req, res, next){
 };
 
 function load(app, fn){
+  var bounce = require('../lib/bounce-user');
   
   var User = require('../models/user');
   passport.serializeUser(function(user, done){
@@ -67,9 +68,9 @@ function load(app, fn){
     //Successful authentication, redirect home.
     res.redirect('/');
   });
-  app.get('/listings', d, listings.index);
+  app.get('/listings', ensureAuthenticated, listings.index);
   app.post('/listings', d, listings.create);
-  app.get('/listings/new', d, listings.new);
+  app.get('/listings/new', d, bounce, listings.new);
   app.get('/listings/filter', d, listings.new);
   app.post('/listings/reserve', d, listings.reserve);
   app.get('/listings/:id', d, listings.show);
@@ -79,8 +80,10 @@ function load(app, fn){
   app.get('/users/:id', d, users.show);
   app.post('/logout', d, users.logout);
 
-
-
   fn();
 }
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/');
+}

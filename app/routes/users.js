@@ -3,7 +3,7 @@
 
 var User = require('../models/user');
 var Listing = require('../models/listing');
-var gravatar  = require('gravatar');
+//var gravatar  = require('gravatar');
 
 exports.create = function(req, res){
   res.redirect('/');
@@ -20,9 +20,9 @@ exports.show = function(req, res){
     if(record.role === 'artist'){
       Listing.findReservationsByArtistId(record._id.toString(), function(reservations){
         Listing.findByArtistId(record._id.toString(), function(listings){
-          var url = gravatar.url(record.email, {s: '200', r: 'pg'});
+          //var url = gravatar.url(record.email, {s: '200', r: 'pg'});
 
-          res.render('users/artistShow', {reservations:reservations, listings:listings,  user:record, gravatar:url});
+          res.render('users/artistShow', {reservations:reservations, listings:listings, user:record});
         });
       });
     }else{
