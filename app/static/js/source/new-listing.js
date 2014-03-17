@@ -16,7 +16,6 @@
 
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({address:address}, function(results, status){
-      console.log(address);
       var name = results[0].formatted_address;
       var lat = results[0].geometry.location.lat();
       var lng = results[0].geometry.location.lng();
@@ -32,3 +31,4 @@
   }
 
 })();
+

@@ -1,33 +1,18 @@
 extends ../shared/template
 
 block content
-  #newListingTitle
-    h2 Create a New Listing
+  h1= title
 
-  .row
-    .small-6.small-centered.columnsi
-      #newListingWrapper
-        form#newListingForm(action='/listings', method='post', enctype='multipart/form-data')
-          label Name
-            input(name='name', type='text', autofocus=true, required)
-          label Day Rate
-            input(name='amount', type='text', placeholder='USD', required)
-          label Address
-            input(name='address', type='text', required)
-            input(name='lat', type='hidden')
-            input(name='lng', type='hidden')
-          label Dates Available
-            input(name='reservations', type='date', placeholder='', required)
-          label Photo
-            input(name='photo', type='file', required)
-          #smallSpacer
-          .row
-            .small-12.small-centered.columns
-              #createListingTextAreaWrapper
-                h3 DESCRIPTION
-                textarea(name='description', cols='500', rows='15', form='createItemForm', placeholder='Tell us about your property!', required)
-
-                button#createListingBtn.tiny.radius Submit New Listing
+  form(method='post', action='/listings')
+    label Name
+    input(type='text', name='name')
+    label Amount
+    input(type='text', name='amount')
+    label Address
+    input(type='text', name='address')
+    input(type='hidden', name='lat')
+    input(type='hidden', name='lng')
+    button#create Create Listing
 
 block scripts
   script(src='/js/source/new-listing.js')

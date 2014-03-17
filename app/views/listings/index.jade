@@ -1,25 +1,27 @@
 extends ../shared/template
 
 block content
-  h1 Listings
+  h1= title
   #map
 
-  button#search(style='display: none') Search By Location
-    
+  button#search(style='display:none;') Search by Location
+
   script.
-    var places = []
-    
+    var places = [];
+
   ul
     each listing in listings
       li
-        span= listing.name
-        span= listing.amount
+        a(href='/listings/' + listing._id): span= listing.name
+        span  -  Cost/Day: #{listing.amount}$
         script.
-          console.log(#{listing.coordinates[0]})
           var place = {};
-          place.address = '#{listing.name}';
+          place.address = '#{listing.address}';
           place.lat = #{listing.coordinates[0]};
-          place.long = #{listing.coordinates[1]};
+          place.lng = #{listing.coordinates[1]};
+          place._id = '#{listing._id}';
           places.push(place);
+
 block scripts
   script(src='/js/source/listings.js')
+

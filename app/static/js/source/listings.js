@@ -53,8 +53,18 @@
   function addMarker(location){
     var position = new google.maps.LatLng(location.lat, location.lng);
     var marker = new google.maps.Marker({map:map, position:position, title:location.address});
+    marker.set('id', location._id);
     markers.push(marker);
+    google.maps.event.addListener(marker, 'click', function() {
+      map.setZoom(18);
+      map.setCenter(marker.getPosition());
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    });
   }
-
+  google.maps.event.addDomListener(window, 'load', initialize);
 })();
 

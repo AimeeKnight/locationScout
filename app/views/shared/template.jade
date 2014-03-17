@@ -13,7 +13,7 @@ html(class='no-js', lang='en')
     nav.top-bar
       ul.title-area
         li.name
-          h1: a(href="/") The Title
+          h1: a(href="/") AirBnB - Node.js
         li.toggle-topbar.menu-icon
           a(href="#") Menu
 
@@ -22,13 +22,13 @@ html(class='no-js', lang='en')
         ul.right
           li: a(href="/") Home
           li.divider
-          li: a(href="/") Register
+          li: a(href="/listings") Listings
           li.divider
-          li: a(href="/") Login
+          li: a(href="/listings/new") New Listing
           li.divider
-          li.has-form
-            form(action="/logout", method='post') 
-              button.tiny.alert.radius Logout
+          li: a(href="/register") Register
+          li.divider
+          li: a(href="/login") Login
     .row
       .small-12.columns
         block content
@@ -37,6 +37,7 @@ html(class='no-js', lang='en')
     script(src='/js/vendor/foundation.min.js')
     script(src='/js/vendor/lodash.js')
     script(src='/js/vendor/moment.js')
+    script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&key=AIzaSyAg7BExWsO3xkC80yWGVtWKCrA_eFr-M34')
     script(src='/js/source/main.js')
-    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASdWkR5-KCdIHvddJunapbDGQ3SyGX2PQ&sensor=true")
     block scripts
+

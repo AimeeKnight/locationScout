@@ -29,7 +29,7 @@ function load(app, fn){
   passport.use(new FacebookStrategy({
       clientID: '1430897753818675',
       clientSecret: 'a1a805afc58ab0421b780187acd29a66',
-      callbackURL: 'http://192.168.15.84:4001/auth/facebook/callback'
+      callbackURL: 'http://192.168.15.16:4000/auth/facebook/callback'
     },
 
     function(accessToken, refreshToken, profile, done){
@@ -68,7 +68,7 @@ function load(app, fn){
     //Successful authentication, redirect home.
     res.redirect('/');
   });
-  app.get('/listings', ensureAuthenticated, listings.index);
+  app.get('/listings', listings.index);
   app.post('/listings', d, listings.create);
   app.get('/listings/new', d, bounce, listings.new);
   app.get('/listings/filter', d, listings.new);
@@ -82,8 +82,9 @@ function load(app, fn){
 
   fn();
 }
-
+/*
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
 }
+*/
