@@ -3,12 +3,13 @@
 process.env.DBNAME = 'users-test';
 var app = require('../../app/app');
 var request = require('supertest');
-//var expect = require('chai').expect;
+var passportStub = require('passport-stub-js');
+var expect = require('chai').expect;
 //var fs = require('fs');
 //var exec = require('child_process').exec;
 var User, u1;
 //var cookie;
-
+passportStub.install(app);
 describe('users', function(){
 
   before(function(done){
@@ -22,9 +23,9 @@ describe('users', function(){
 
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
-      u1 = new User({name:'Chyld', facebookId:'bitch'});
+      u1 = new User({name:'Chyld', facebookId:'12234567890'});
       u1.insert(function(){
-        u1.update('knicos@ahole.com', 'artist', function(){
+        u1.update('knicos@aol.com', 'artist', function(){
           done();
         });
       });
@@ -47,25 +48,13 @@ describe('users', function(){
     });
   });
 
-  /*
+  
   describe('AUTHORIZED', function(){
-    beforeEach(function(done){
-      request(app)
-      .get'/auth/facebook')
-      //.post('/login')
-      //.field('email', 'testsue@aol.com')
-      //.field('password', 'abcd')
-      .end(function(err, res){
-        cookie = res.headers['set-cookie'];
-        done();
-      });
-    });
-
-    describe('GET /users/:id', function(){
-      it('should login a user and show the user\'s profile page', function(done){
+    describe('GET /listings', function(){
+      it('should login a user and show listings', function(done){
+        //passportStub.login({name: 'Tyler Malone', facebookId:'123456789'});
         request(app)
-        .get('/users/' + u1._id)
-        .set('cookie', cookie)
+        .get('/listings')
         .end(function(err, res){
           expect(res.status).to.equal(200);
           done();
@@ -73,6 +62,6 @@ describe('users', function(){
       });
     });
   });
-  */
+
 /////////////
 });

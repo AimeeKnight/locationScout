@@ -5,8 +5,17 @@ var User = require('../models/user');
 var Listing = require('../models/listing');
 //var gravatar  = require('gravatar');
 
+
 exports.create = function(req, res){
-  res.redirect('/');
+  console.log('req.user.facebookId>>>>>', req.user.facebookId);
+  User.update(req.user.facebookId, req.body.email, req.body.role, function(count){
+    res.redirect('/listings');
+  });
+};
+
+exports.update = function(req, res){
+  console.log('req.user>>>>>', req.user);
+  res.render('users/updateInfo', {title: 'Complete Account Registration', user:req.user});
 };
 
 exports.show = function(req, res){
@@ -33,18 +42,6 @@ exports.show = function(req, res){
   });
 };
 
-
-/*
-exports.show = function(req, res){
-  User.findById(req.session.userId, function(user){
-    //var url = gravatar.url(user.email, {s: '200', r: 'pg'});
-    //if(user.role === 'owner')
-     // Listing.findByOwnerId
-
-    //res.render('users/show', {user:user});
-  });
-};
-*/
 exports.logout = function(req, res){
   req.session.destroy(function(){
     res.redirect('/');

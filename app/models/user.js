@@ -28,8 +28,8 @@ User.prototype.insert = function(fn){
   });
 };
 
-User.prototype.update = function(email, role, fn){
-  users.update({facebookId:this.facebookId}, {email:email, role:role}, function(err, count){
+User.update = function(facebookId, email, role, fn){
+  users.update({facebookId:facebookId}, {$set: {email:email, role:role}}, function(err, count){
     fn(count);
   });
 };
