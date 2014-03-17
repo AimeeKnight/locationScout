@@ -5,11 +5,12 @@ block content
   
   .row
     .small-6.small-centered.columns
-      form#infoForm
+      form#infoForm(action='/updateUser', method='post')
+        h2 #{user.name}, please complete this form.
         label Email
           input(type='email', name='email', autofocus=true, required)
         label Are you an Owner or Artist?
-          option#roleSelection(value='role')
-            select Owner
-            select Artist
+          select#roleSelection(name='role')
+            option(value='owner') Owner
+            option(value='artist') Artist
         button#updateBtn.tiny.radius Submit
