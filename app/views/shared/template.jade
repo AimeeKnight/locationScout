@@ -22,9 +22,14 @@ html(class='no-js', lang='en')
         ul.right
           li: a(href="/") Home
           li.divider
+          li: a(href="/logout") Logout
+          li.divider
           li: a(href="/listings") Listings
           li.divider
           li: a(href="/listings/new") New Listing
+          if user
+            li.divider
+            li: a(href="/users/show") Profile
     .row
       .small-12.columns
         block content

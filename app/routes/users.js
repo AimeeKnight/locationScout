@@ -20,7 +20,12 @@ exports.update = function(req, res){
 
 exports.show = function(req, res){
 
-  User.findbyId(req.params.id, function(record){
+  User.findById(req.params.id, function(record){
+    //this idea uses the concept of having two seperate view pages, one for the user show
+    //page if you are an artist, and another if you are a property owner
+    //theoretically allows us to have one if statemenet here, and none in the Jade,
+    //should be easier, but there could be issues Im not thinking abouto
+
     if(record.role === 'artist'){
       //Listing.findReservationsByArtistId(record._id.toString(), function(reservations){
       Listing.findByArtistId(record._id.toString(), function(listings){
@@ -30,6 +35,8 @@ exports.show = function(req, res){
      // });
     }else{
       Listing.findByOwnerId(record._id.toString(), function(listings){
+        console.log('>>>>>>>>>>>>>>>>>>>>>LISTINGS!!!!!!!!!!>>>>>>>>>>>>>>>>>>>>>>');
+        console.log(listings);
         res.render('users/ownerShow', {listings:listings, owner:record});
       });
     }

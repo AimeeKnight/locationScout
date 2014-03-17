@@ -7,5 +7,16 @@ block content
     .small-6.columns
       h1= listing.name
       h2= listing.description
+      h2= listing.amount
+      h2= listing.address
+      
+      if currentUser.role == artist
+        form(action='/listings/reserve',  method='post')
+          label Reservation Date
+          input(type='date', name='reservedDate', required)
+          input(type='hidden', name='artistName', value= currentUser.name, required)
+          input(type='hidden', name='listingId', value= listing._id, required)
+
+          button.medium.radius Reserve
 
 block scripts

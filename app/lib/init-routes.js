@@ -15,7 +15,7 @@ module.exports = function(req, res, next){
 };
 
 function load(app, fn){
-  //var bounce = require('../lib/bounce-user');
+  var bounce = require('../lib/bounce-user');
   var User = require('../models/user');
   passport.serializeUser(function(user, done){
     done(null, user);
@@ -69,7 +69,7 @@ function load(app, fn){
   app.get('/testArtist', d, users.testLoginArtist);
   app.get('/testOwner', d, users.testLoginOwner);
   app.post('/listings', d, listings.create);
-  app.get('/listings/new', /*ensureAuthenticated, bounce,*/ listings.new);
+  app.get('/listings/new', ensureAuthenticated, bounce, listings.new);
   app.post('/updateUser', d, users.create);
   app.get('/updateUser', d, /*ensureAuthenticated,*/ users.update);
   app.get('/listings/filter', d, listings.new);
@@ -87,9 +87,8 @@ function load(app, fn){
 
   fn();
 }
-/*
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
 }
-*/
