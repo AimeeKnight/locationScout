@@ -22,16 +22,25 @@ exports.index = function(req, res){
   });
 };
 
+exports.query = function(req, res){
+  Listing.findByGeo(req.query, function(listings){
+    res.send({listings:listings});
+  });
+};
+
 exports.show = function(req, res){
-  res.render('listings/show', {title:'Listings Index Page'});
+  Listing.findById(req.params.id, function(listing){
+    res.render('listings/show', {listing:listing});
+  });
 };
 
 exports.create = function(req, res){
   var listing = new Listing(req.body);
   listing.ownerId = req.session.userId;
+  listing.addCover(req.files.cover.path);
   listing.insert(function(data){
     console.log(data);
-    res.redirect('/');
+    res.redirect('/listings');
   });
   //res.redirect('users/' + req.session.userId, {title:'Random title'});
   

@@ -15,7 +15,7 @@ module.exports = function(req, res, next){
 };
 
 function load(app, fn){
-  var bounce = require('../lib/bounce-user');
+  //var bounce = require('../lib/bounce-user');
   var User = require('../models/user');
   passport.serializeUser(function(user, done){
     done(null, user);
@@ -47,9 +47,7 @@ function load(app, fn){
               return done(null, user);
             });
           }
-
         });
-
       });
     }
   ));
@@ -70,21 +68,22 @@ function load(app, fn){
   });
   app.get('/listings', d, listings.index);
   app.post('/listings', d, listings.create);
-  app.get('/listings/new', ensureAuthenticated, bounce, listings.new);
+  app.get('/listings/new', /*ensureAuthenticated, bounce,*/ listings.new);
   app.post('/updateUser', d, users.create);
-  app.get('/updateUser', d, ensureAuthenticated, users.update);
+  app.get('/updateUser', d, /*ensureAuthenticated,*/ users.update);
   app.get('/listings/filter', d, listings.new);
   app.post('/listings/reserve', d, listings.reserve);
-  app.get('/listings/:id', d, ensureAuthenticated, bounce, listings.show);
-  app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
-  //app.post('/listings/rent/:id', d, listings.rent);
-  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
+  app.get('/listings/query', d, listings.query);
+  app.get('/listings/:id', d, /*ensureAuthenticated, bounce,*/ listings.show);
+  app.del('/listings/:id', d, /*ensureAuthenticated,*/ listings.destroy);
+  app.get('/users/:id', d, /*ensureAuthenticated, bounce,*/ users.show);
   app.post('/logout', d, users.logout);
 
   fn();
 }
-
+/*
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
 }
+*/
