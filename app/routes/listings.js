@@ -1,7 +1,7 @@
 'use strict';
 
 var Listing = require('../models/listing');
-//var User = require('../models/user');
+var User = require('../models/user');
 //var request = require('request');
 //var fs = require('fs');
 var Mongo = require('mongodb');
@@ -29,8 +29,10 @@ exports.query = function(req, res){
 };
 
 exports.show = function(req, res){
-  Listing.findById(req.params.id, function(listing){
-    res.render('listings/show', {listing:listing});
+  User.findById(req.session.passport.user._id, function(currentUser){
+    Listing.findById(req.params.id, function(listing){
+      res.render('listings/show', {listing:listing, currentUser:currentUser});
+    });
   });
 };
 
@@ -39,7 +41,6 @@ exports.create = function(req, res){
   listing.ownerId = Mongo.ObjectID(req.session.passport.user._id);
   listing.addCover(req.files.cover.path);
   listing.insert(function(data){
-    console.log(data);
     res.redirect('/listings');
   });
   //res.redirect('users/' + req.session.userId, {title:'Random title'});
@@ -49,7 +50,7 @@ exports.create = function(req, res){
 exports.reserve = function(req, res){
   //listing id, date, artist name
   Listing.findById(req.body.listingId, function(listing){
-    listing.reserveListing(req.body.artistName, req.body.arrtistId , req.body.reservedDate, function(){
+    listing.reserveListing(req.body.artistName, req.session.passport.user._id , req.body.reservedDate, function(){
       res.redirect('/');
     });
   });
