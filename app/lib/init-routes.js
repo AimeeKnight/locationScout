@@ -29,7 +29,7 @@ function load(app, fn){
   passport.use(new FacebookStrategy({
       clientID: '1430897753818675',
       clientSecret: 'a1a805afc58ab0421b780187acd29a66',
-      callbackURL: 'http://192.168.15.16:4000/auth/facebook/callback'
+      callbackURL: 'http://192.168.11.98:4009/auth/facebook/callback'
     },
 
     function(accessToken, refreshToken, profile, done){
@@ -64,7 +64,7 @@ function load(app, fn){
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
     //Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('/listings');
   });
   app.get('/listings', d, listings.index);
   app.post('/listings', d, listings.create);
