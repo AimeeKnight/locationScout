@@ -81,8 +81,8 @@ Listing.findReservationsByArtistId = function(id, fn){
   Listing.findAll(function(listings){
 
     listings.forEach(function(listing){
-      var singleListingReservations =  _.filter(listing.reservations, { 'artistId': _id});
-      reservations.push(singleListingReservations);
+      var singleReservation =  _.filter(listing.reservations, { 'artistId': _id});
+      reservations.push(singleReservation);
     });
 
     reservations = _.flatten(reservations);

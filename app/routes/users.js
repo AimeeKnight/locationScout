@@ -27,13 +27,12 @@ exports.show = function(req, res){
     //should be easier, but there could be issues Im not thinking abouto
 
     if(record.role === 'artist'){
-      Listing.findReservationsByArtistId(record._id.toString(), function(reservations){
-        Listing.findByArtistId(record._id.toString(), function(listings){
+      //Listing.findReservationsByArtistId(record._id.toString(), function(reservations){
+      Listing.findByArtistId(record._id.toString(), function(listings){
           //var url = gravatar.url(record.email, {s: '200', r: 'pg'});
-
-          res.render('users/artistShow', {reservations:reservations, listings:listings, user:record});
-        });
+        res.render('users/artistShow', {listings:listings, user:record});
       });
+     // });
     }else{
       Listing.findByOwnerId(record._id.toString(), function(listings){
         res.render('users/ownerShow', {listings:listings, owner:record});
