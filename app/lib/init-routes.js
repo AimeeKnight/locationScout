@@ -66,16 +66,18 @@ function load(app, fn){
     res.redirect('/listings');
   });
   app.get('/listings', d, listings.index);
+  app.get('/testArtist', d, users.testLoginArtist);
+  app.get('/testOwner', d, users.testLoginOwner);
   app.post('/listings', d, listings.create);
-  app.get('/listings/new', ensureAuthenticated, bounce, listings.new);
+  app.get('/listings/new', /*ensureAuthenticated, bounce,*/ listings.new);
   app.post('/updateUser', d, users.create);
-  app.get('/updateUser', d, ensureAuthenticated, users.update);
+  app.get('/updateUser', d, /*ensureAuthenticated,*/ users.update);
   app.get('/listings/filter', d, listings.new);
   app.post('/listings/reserve', d, listings.reserve);
   app.get('/listings/query', d, listings.query);
-  app.get('/listings/:id', d, ensureAuthenticated, bounce, listings.show);
-  app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
-  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
+  app.get('/listings/:id', d, /*ensureAuthenticated, bounce,*/ listings.show);
+  app.del('/listings/:id', d, /*ensureAuthenticated,*/ listings.destroy);
+  app.get('/users/:id', d, /*ensureAuthenticated, bounce,*/ users.show);
   app.post('/logout', d, users.logout);
   app.get('/logout', function(req, res){
     req.session.destroy(function(){

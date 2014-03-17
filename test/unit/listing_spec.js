@@ -5,7 +5,7 @@ var Mongo = require('mongodb');
 var expect = require('chai').expect;
 var fs = require('fs');
 var exec = require('child_process').exec;
-var User, Listing, l1, listing1Id;
+var User, Listing, l1, l2, l3, listing1Id;
 
 describe('Listing', function(){
 
@@ -29,15 +29,17 @@ describe('Listing', function(){
       fs.createReadStream(origfile).pipe(fs.createWriteStream(copy1file));
       fs.createReadStream(origfile).pipe(fs.createWriteStream(copy2file));
       global.nss.db.dropDatabase(function(err, result){
-        l1 = new Listing({name:'Listing1',
-                          ownerId:'222222222222222222222222',
-                          lat: '32',
-                          lng: '32',
-                          address: '123 Main St.',
-                          amount: 100});
-        l1.insert(function(listing1){
-          listing1Id = listing1._id.toString();
-          done();
+        global.nss.db.collection('listings').ensureIndex({'coordinates':'2dsphere'}, function(err, indexName){
+          l1 = new Listing({name:'Listing1',
+            ownerId:'222222222222222222222222',
+             lat: '32',
+             lng: '32',
+             address: '123 Main St.',
+             amount: 100});
+          l1.insert(function(listing1){
+            listing1Id = listing1._id.toString();
+            done();
+          });
         });
       });
     });
@@ -151,6 +153,32 @@ describe('Listing', function(){
         Listing.findReservationsByArtistId('111111111111111111111111',  function(reservations){
           expect(reservations[0].artistId.toString()).to.equal('111111111111111111111111');
           done();
+        });
+      });
+    });
+  });
+
+  describe('.findByGeo', function(){
+    it('should find closest closet by location', function(done){
+      l2 = new Listing({name:'Listing2',
+                         ownerId:'222222222222222222222222',
+                         lat: '32',
+                         lng: '-86',
+                         address: '23 Main St.',
+                         amount: 100});
+      l3 = new Listing({name:'Listing3',
+                         ownerId:'222222222222222222222222',
+                         lat: '42',
+                         lng: '32',
+                         address: '123 Main St.',
+                         amount: 100});
+      l2.insert(function(listing2){
+        l3.insert(function(listing3){
+          var object = {lat: 32, lng:-85};
+          Listing.findByGeo(object, function(records){
+            expect(records[0].name).to.equal('Listing2');
+            done();
+          });
         });
       });
     });

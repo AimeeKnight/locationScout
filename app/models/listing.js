@@ -94,8 +94,7 @@ Listing.findReservationsByArtistId = function(id, fn){
 Listing.findByGeo = function(query, fn){
   var lat = query.lat * 1;
   var lng = query.lng * 1;
-
-  listings.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 2500000}}).toArray(function(err, records){
+  listings.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 25000000}}).toArray(function(err, records){
     fn(records);
   });
 };

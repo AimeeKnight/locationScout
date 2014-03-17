@@ -45,7 +45,7 @@ describe('User', function(){
   describe('#update', function(){
     it('should update user object with email and role', function(done){
       u1.insert(function(){
-        u1.update('sue@aol.com', 'artist', function(ret){
+        User.update('abcd', 'sue@aol.com', 'artist', function(ret){
           expect(ret).to.equal(1);
           done();
         });
