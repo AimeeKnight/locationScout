@@ -1,13 +1,13 @@
 extends ../shared/template
 
 block content
-  input(type='hidden', value= user._id.toString())
+  input(type='hidden', value= artist._id.toString())
   .row
     .small-12.columns
       div.panel
         img(src= gravatar).user-img
-        h1= user.name
-        h4= user.email
+        h1= artist.name
+        h4= artist.email
   .row
     .small-12.columns
       each listing in listings

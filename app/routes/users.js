@@ -23,7 +23,7 @@ exports.show = function(req, res){
     if(record.role === 'artist'){
       Listing.findByArtistId(record._id.toString(), function(listings){
           //var url = gravatar.url(record.email, {s: '200', r: 'pg'});
-        res.render('users/artistShow', {currentUser:req.user, listings:listings, user:record});
+        res.render('users/artistShow', {currentUser:req.user, listings:listings, artist:record});
       });
     }else{
       Listing.findByOwnerId(record._id.toString(), function(listings){
@@ -41,11 +41,12 @@ exports.logout = function(req, res){
 
 exports.testLoginArtist = function(req, res){
   req.session.regenerate(function(){
-    req.session.facebookId = '123456789';
-    req.session.name = 'Jay Knight';
-    req.session.email = 'jayKnight@gmail.com';
-    req.session.role = 'artist';
-    req.session._id = 'zzzzzzzzzzzzzzzzzzzzzzzz';
+    req.session.passport.user = 'Jay Knight';
+    req.session.passport.facebookId = '123456789';
+    req.session.passport.name = 'Jay Knight';
+    req.session.passport.email = 'jayKnight@gmail.com';
+    req.session.passport.role = 'artist';
+    req.session.passport._id = 'zzzzzzzzzzzzzzzzzzzzzzzz';
     req.session.save(function(){
       res.redirect('/');
     });

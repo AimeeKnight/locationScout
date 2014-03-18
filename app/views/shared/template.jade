@@ -27,9 +27,12 @@ html(class='no-js', lang='en')
           li: a(href="/listings") Listings
           li.divider
           li: a(href="/listings/new") New Listing
-          if user
-            li.divider
-            li: a(href="/users/show") Profile
+          //if user.role === owner
+            //li.divider
+            //li: a(href="/users/ownerShow") Profile
+          //if user.role === artist
+            //li.divider
+            //li: a(href="/users/artistShow") Profile
     .row
       .small-12.columns
         block content
