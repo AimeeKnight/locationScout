@@ -32,7 +32,7 @@ function load(app, fn){
     },
 
     function(accessToken, refreshToken, profile, done){
-   
+
       process.nextTick(function() {
 
         User.findByFacebookId(profile.id.toString(), function(user){
