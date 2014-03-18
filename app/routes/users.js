@@ -3,8 +3,8 @@
 
 var User = require('../models/user');
 var Listing = require('../models/listing');
-//var gravatar  = require('gravatar');
-
+var gravatar  = require('gravatar');
+var moment = require('moment');
 
 exports.create = function(req, res){
   User.update(req.user.facebookId, req.body.email, req.body.role, function(count){
@@ -22,12 +22,13 @@ exports.show = function(req, res){
 
     if(record.role === 'artist'){
       Listing.findByArtistId(record._id.toString(), function(listings){
-          //var url = gravatar.url(record.email, {s: '200', r: 'pg'});
-        res.render('users/artistShow', {currentUser:req.user, listings:listings, artist:record});
+        var url = gravatar.url(record.email, {s: '200', r: 'pg'});
+        res.render('users/artistShow', {moment:moment, user:req.user, listings:listings, artist:record, gravatar: url});
       });
     }else{
       Listing.findByOwnerId(record._id.toString(), function(listings){
-        res.render('users/ownerShow', {user:req.user, listings:listings, owner:record});
+        var url = gravatar.url(record.email, {s: '200', r: 'pg'});
+        res.render('users/ownerShow', {moment:moment, user:req.user, listings:listings, owner:record, gravatar: url});
       });
     }
   });

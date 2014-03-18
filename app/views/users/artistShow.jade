@@ -15,6 +15,8 @@ block content
           a(href='listings/'+listing._id): span= listing.name
           span - Address: #{listing.address}
           span - Day Rate: #{listing.amount}
+
+          h1 Reservations
           each reservation in listings.reservations
             span= reservation.reservedDate
 

@@ -10,6 +10,8 @@ html(class='no-js', lang='en')
     link(rel='stylesheet', href='/less/app.css')
     script(src='/js/vendor/modernizr.js')
   body
+    #fb-root
+    script.
     nav.top-bar
       ul.title-area
         li.name
@@ -20,7 +22,7 @@ html(class='no-js', lang='en')
       section.top-bar-section
         ul.left
         ul.right
-          li: a(href="/") Home
+          li: .fb-login-button(data-max-rows='1', data-size='large', data-show-faces='false', data-auto-logout-link='true')
           li.divider
           li: a(href="/logout") Logout
           li.divider

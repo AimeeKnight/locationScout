@@ -1,13 +1,68 @@
 'use strict';
 
+var express = require('express');
+var passport = require('passport');
+var request = require('supertest');
+
 process.env.DBNAME = 'users-test';
 var app = require('../../app/app');
 var request = require('supertest');
-var expect = require('chai').expect;
+//var expect = require('chai').expect;
 //var fs = require('fs');
 //var exec = require('child_process').exec;
-var User, u1;
+//var User, u1;
 //var cookie;
+
+
+describe('app', function() {
+  describe('GET /', function() {
+    it('should return 403 when no user is logged in', function(done) {
+
+      //var app = express();
+      app.use(passport.initialize());
+      app.use(passport.session());
+      app.get('/', function(req, res){
+        if (!req.user || !req.isAuthenticated()){
+          return res.send(403);
+        }
+        res.send(200);
+      });
+
+      request(app)
+        .get('/')
+        .expect(403)
+        .end(done);
+    });
+
+    it('should return 200 when user is logged in', function(done) {
+
+      var app = express();
+      app.use(passport.initialize());
+      app.use(passport.session());
+      app.use(function(req, res, next) {
+        req.isAuthenticated = function() {
+          return true;
+        };
+        req.user = {};
+        next();
+      });
+      app.get('/', function(req, res){
+        if (!req.user || !req.isAuthenticated()){
+          return res.send(403);
+        }
+        res.send(200);
+      });
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .end(done);
+
+    });
+  });
+});
+
+/*
 describe('users', function(){
 
   before(function(done){
@@ -62,3 +117,4 @@ describe('users', function(){
 
 /////////////
 });
+*/

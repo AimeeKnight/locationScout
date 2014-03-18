@@ -5,20 +5,28 @@ block content
   .row
     .small-12.columns
       div.panel
-        //img(src= owner.userPhoto).user-img
+        img(src= gravatar).user-img
         h1= owner.name
         h4= owner.email
   .row
     .small-12.columns
       each listing in listings
         input.listingId(type='hidden', value= listing._id)
-        ul
-          li= listing.name
-          li= listing.amount
-          li= listing.address
-          li= listing.description
+        h5 Listing Name:  
+          span= listing.name
+        h5 Listing Amount: $ 
+          span= listing.amount  
+        h5 Listing Address:  
+          span= listing.address
+        h5 Listing Description:  
+          span= listing.description
+
+        h1 Reservations
         each reservation in listing.reservations
-          ul
-            li= reservation.artistName
-            //li = reservation.reservedDate.toDateString();
+          .panel
+            h3 Artist Name:  
+              span= reservation.artistName
+            h3 Date: 
+              span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
+
 
