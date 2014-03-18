@@ -101,7 +101,6 @@ describe('User', function() {
       it('should display the listings page when logged in', function(done){
         var u2 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'9999999'});
         u2.insert(function(user){
-          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', user);
           userId2 = user._id.toString();
           var l1 = new Listing({name:'Listing2',
                              ownerId:'222222222222222222222222',
@@ -120,12 +119,10 @@ describe('User', function() {
       });
     });
 
-    /*
     describe('GET /listings/reserve', function(){
       it('should display the listings page when logged in', function(done){
         var u2 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'77777777'});
         u2.insert(function(user){
-          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', user);
           userId2 = user._id.toString();
           var l1 = new Listing({name:'Listing2',
                              ownerId:'222222222222222222222222',
@@ -136,14 +133,18 @@ describe('User', function() {
           l1.insert(function(listing){
             listingId = listing._id.toString();
             request(app)
-            .get('/listings/reserve/')
+            .post('/listings/reserve')
             .set('cookie', cookie)
-            .expect(200, done);
+            .field('reservedDate', '2012-10-10')
+            .field('artistName', 'Person1')
+            .field('listingId', listingId)
+            .expect(302, done);
+
           });
         });
       });
     });
-   */
+
 //////////
   });
 });

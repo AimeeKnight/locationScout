@@ -16,7 +16,7 @@ block content
               label Reservation Date
               input(type='date', name='reservedDate', required)
               input(type='hidden', name='artistName', value= currentUser.name)
-              input(type='hidden', name='listingId', value= listing._id)
+              input(type='hidden', name='listingId', value= listing._id.toString())
 
               button.medium.radius Reserve
 

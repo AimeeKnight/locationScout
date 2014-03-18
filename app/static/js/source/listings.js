@@ -62,7 +62,7 @@
       }
     });
     google.maps.event.addListener(marker, 'click', function() {
-      map.setZoom(18);
+      map.setZoom(15);
       map.setCenter(marker.getPosition());
       currentClick = marker;
     });

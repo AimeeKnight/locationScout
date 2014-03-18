@@ -47,17 +47,16 @@ exports.create = function(req, res){
 
 exports.reserve = function(req, res){
   //listing id, date, artist name
-  console.log('LLLLLLLLLLLLLLLL ROUTES  LLLLLLLLLLLLLLLLLLLLLLLLL', req.body.listingId);
-  Listing.findById(req.body.listingId, function(listing){
+  Listing.findById(req.body.listingId.toString(), function(listing){
     listing.reserveListing(req.body.artistName, req.session.passport.user._id , req.body.reservedDate, function(){
-      res.redirect('/', {user:req.user});
+      res.redirect('/');
     });
   });
 };
 
 exports.destroy = function(req, res){
   Listing.deleteById(req.params.id, function(count){
-    res.redirect('users/' + req.session.passport.user._id, {user:req.user});
+    res.redirect('users/' + req.session.passport.user._id);
   });
 };
 
