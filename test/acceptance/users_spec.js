@@ -1,69 +1,17 @@
 'use strict';
 
-var express = require('express');
+//var express = require('express');
 var passport = require('passport');
 var request = require('supertest');
 
 process.env.DBNAME = 'users-test';
 var app = require('../../app/app');
 var request = require('supertest');
-//var expect = require('chai').expect;
-//var fs = require('fs');
-//var exec = require('child_process').exec;
-//var User, u1;
-//var cookie;
+var User;
+var userId;
+var cookie;
 
-
-describe('app', function() {
-  describe('GET /', function() {
-    it('should return 403 when no user is logged in', function(done) {
-
-      //var app = express();
-      app.use(passport.initialize());
-      app.use(passport.session());
-      app.get('/', function(req, res){
-        if (!req.user || !req.isAuthenticated()){
-          return res.send(403);
-        }
-        res.send(200);
-      });
-
-      request(app)
-        .get('/')
-        .expect(403)
-        .end(done);
-    });
-
-    it('should return 200 when user is logged in', function(done) {
-
-      var app = express();
-      app.use(passport.initialize());
-      app.use(passport.session());
-      app.use(function(req, res, next) {
-        req.isAuthenticated = function() {
-          return true;
-        };
-        req.user = {};
-        next();
-      });
-      app.get('/', function(req, res){
-        if (!req.user || !req.isAuthenticated()){
-          return res.send(403);
-        }
-        res.send(200);
-      });
-
-      request(app)
-        .get('/')
-        .expect(200)
-        .end(done);
-
-    });
-  });
-});
-
-/*
-describe('users', function(){
+describe('User', function() {
 
   before(function(done){
     request(app)
@@ -76,45 +24,54 @@ describe('users', function(){
 
   beforeEach(function(done){
     global.nss.db.dropDatabase(function(err, result){
-      u1 = new User({name:'Chyld', facebookId:'12234567890'});
-      u1.insert(function(){
-        User.update('1234567890', 'knicos@aol.com', 'artist', function(){
-          done();
-        });
+      app.use(passport.initialize());
+      app.use(passport.session());
+      var u1 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'12345'});
+      u1.insert(function(user){
+        userId = user._id.toString();
+        done();
       });
     });
   });
 
   describe('GET /', function(){
-    it('should display the home page', function(done){
+    it('should display the home page when not logged in', function(done){
       request(app)
       .get('/')
       .expect(200, done);
     });
   });
 
-  describe('GET /auth/facebook', function(){
-    it('should redirect you to home page due to a failed facebook auth', function(done){
-      request(app)
-      .get('/auth/facebook')
-      .expect(302, done);
-    });
-  });
+  beforeEach(function(done){
+    global.nss.db.dropDatabase(function(err, result){
+    
+      app.get('/log-me-in-now', function(req, res){
+        app.use(passport.initialize());
+        app.use(passport.session());
+        req.session.passport.user = {};
+        res.send(200);
+      });
 
-  describe('AUTHORIZED', function(){
-    describe('GET /listings', function(){
-      it('should login a user and show listings', function(done){
-        //passportStub.login({name: 'Tyler Malone', facebookId:'123456789'});
-        request(app)
-        .get('/listings')
-        .end(function(err, res){
-          expect(res.status).to.equal(200);
-          done();
+      request(app)
+      .get('/log-me-in-now')
+      .end(function(err, res){
+        cookie = res.headers['set-cookie'];
+        done();
+      });
+    });
+
+    describe('GET /users/:id', function(){
+      it('should display the user page when logged in', function(done){
+        var u1 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'888888'});
+        u1.insert(function(user){
+          userId = user._id.toString();
+
+          request(app)
+          .get('/users/' + userId)
+          .set('cookie', cookie)
+          .expect(200, done);
         });
       });
     });
   });
-
-/////////////
 });
-*/

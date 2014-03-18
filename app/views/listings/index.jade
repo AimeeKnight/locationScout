@@ -4,16 +4,17 @@ block content
   h1= title
   #map
 
-  button#search(style='display:none;') Search by Location
+  button#search.tiny.radius.alert(style='display:none;') Find closest to me!
 
   script.
     var places = [];
 
-  ul
+  ul#list
     each listing in listings
-      li
+      li.listingDiv
         a(href='/listings/' + listing._id): span= listing.name
-        span  -  Cost/Day: #{listing.amount}$
+        .indexPhoto.borderStyle(style='background-image: url('+listing.cover+')')
+        span Day: $#{listing.amount}
         script.
           var place = {};
           place.address = '#{listing.address}';

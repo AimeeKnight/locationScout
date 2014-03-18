@@ -17,7 +17,17 @@ function Listing(listing){
   this.ownerId = Mongo.ObjectID(listing.ownerId);
   this.reservations = [];
   this.artistIds = [];
+  this.photoPaths = [];
 }
+
+Listing.prototype.updatePhotoArray = function(fn){
+  console.log('this instide update photo array', this);
+  console.log('this._id ', this._id);
+  listings.update({_id:this._id}, {$set: {photoPaths:this.photoPaths }}, function(err, count){
+    console.log('count', count);
+    fn(count);
+  });
+};
 
 Listing.prototype.insert = function(fn){
   listings.insert(this, function(err, records){
@@ -111,4 +121,20 @@ Listing.prototype.addCover = function(oldpath){
 
   this.cover = relpath;
 };
+
+Listing.prototype.addPhoto = function(oldpath, name, fn){
+  var self = this;
+  console.log('SELF>>>', self);
+  var dirname = this.name.replace(/\W/g, '').toLowerCase();
+  var abspath = __dirname + '/../static';
+  var relpath = '/img/listings/' + dirname + '/' + name;
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  console.log(oldpath + '........' +abspath+relpath);
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  fs.rename(oldpath, abspath + relpath, function(err){
+    self.photoPaths.push(relpath.toString());
+    fn();
+  });
+};
+
 

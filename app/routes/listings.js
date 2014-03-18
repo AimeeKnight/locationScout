@@ -41,12 +41,13 @@ exports.create = function(req, res){
   listing.ownerId = Mongo.ObjectID(req.session.passport.user._id);
   listing.addCover(req.files.cover.path);
   listing.insert(function(data){
-    res.redirect('/listings', {user:req.user});
+    res.redirect('/listings');
   });
 };
 
 exports.reserve = function(req, res){
   //listing id, date, artist name
+  console.log('LLLLLLLLLLLLLLLL ROUTES  LLLLLLLLLLLLLLLLLLLLLLLLL', req.body.listingId);
   Listing.findById(req.body.listingId, function(listing){
     listing.reserveListing(req.body.artistName, req.session.passport.user._id , req.body.reservedDate, function(){
       res.redirect('/', {user:req.user});
@@ -57,5 +58,18 @@ exports.reserve = function(req, res){
 exports.destroy = function(req, res){
   Listing.deleteById(req.params.id, function(count){
     res.redirect('users/' + req.session.passport.user._id, {user:req.user});
+  });
+};
+
+exports.addPhoto = function(req, res){
+  Listing.findById(req.params.id, function(record){
+    console.log('record before add photo', record);
+    record.addPhoto(req.files.photo.path, req.files.photo.name, function(err){
+      console.log('record after add photo', record);
+      record.updatePhotoArray(function(){
+        console.log('record after update Photo Array', record);
+        res.redirect('/listings/'+req.params.id);
+      });
+    });
   });
 };

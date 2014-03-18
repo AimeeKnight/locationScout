@@ -1,6 +1,12 @@
 'use strict';
 
 exports.index = function(req, res){
-  res.render('home/index', {title: 'Express Template', user:req.user});
+  var login;
+  if(req.user){
+    login = true;
+  }else{
+    login = false;
+  }
+  res.render('home/index', {user:req.user, title: 'Express Template', login:login});
 };
 

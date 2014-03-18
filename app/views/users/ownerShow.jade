@@ -3,13 +3,17 @@ extends ../shared/template
 block content
   input#ownerId(type='hidden', value= owner._id)
   .row
-    .small-12.columns
-      div.panel
-        img(src= gravatar).user-img
-        h1= owner.name
-        h4= owner.email
+    .small-11.columns.panel
+      div
+        .row
+          .small-3.columns
+            img.borderStyle(src= gravatar).user-img
+          .small-9.columns
+            h3= owner.name
+            h5: a(href='mailto:owner.email')= owner.email
+
   .row
-    .small-12.columns
+    .small-11.columns
       each listing in listings
         input.listingId(type='hidden', value= listing._id)
         h5 Listing Name:  
@@ -20,13 +24,13 @@ block content
           span= listing.address
         h5 Listing Description:  
           span= listing.description
-
-        h1 Reservations
-        each reservation in listing.reservations
-          .panel
-            h3 Artist Name:  
-              span= reservation.artistName
-            h3 Date: 
-              span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
+        if listings.reservations
+          h1 Reservations
+          each reservation in listing.reservations
+            .panel
+              h3 Artist Name:  
+                span= reservation.artistName
+              h3 Date: 
+                span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
 
 

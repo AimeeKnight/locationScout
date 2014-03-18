@@ -3,20 +3,23 @@ extends ../shared/template
 block content
   input(type='hidden', value= artist._id.toString())
   .row
-    .small-12.columns
-      div.panel
-        img(src= gravatar).user-img
-        h1= artist.name
-        h4= artist.email
+    .small-11.columns.panel.small-centered
+      div
+        .row
+          .small-3.columns
+            img.borderStyle(src= gravatar).user-img
+          .small-9.columns
+            h3= artist.name
+            h5: a(href='mailto:'+artist.email+'')= artist.email
   .row
-    .small-12.columns
+    .small-11.columns
       each listing in listings
         li
-          a(href='listings/'+listing._id): span= listing.name
+          a(href='/listings/'+listing._id): span= listing.name
           span - Address: #{listing.address}
-          span - Day Rate: #{listing.amount}
+          span - Day Rate: $#{listing.amount}
 
           h1 Reservations
-          each reservation in listings.reservations
+          each reservation in listing.reservations
             span= reservation.reservedDate
 

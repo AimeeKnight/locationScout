@@ -5,9 +5,17 @@ var User = require('../models/user');
 var Listing = require('../models/listing');
 var gravatar  = require('gravatar');
 var moment = require('moment');
+/*
+function returnUser(){
+  User.findById(req.session.passport.user._id, function(){
+    
+  });
+}
+*/
 
 exports.create = function(req, res){
   User.update(req.user.facebookId, req.body.email, req.body.role, function(count){
+    req.session.user.
     res.redirect('/listings', {user:req.user});
   });
 };
@@ -19,7 +27,6 @@ exports.update = function(req, res){
 exports.show = function(req, res){
 
   User.findById(req.params.id, function(record){
-
     if(record.role === 'artist'){
       Listing.findByArtistId(record._id.toString(), function(listings){
         var url = gravatar.url(record.email, {s: '200', r: 'pg'});

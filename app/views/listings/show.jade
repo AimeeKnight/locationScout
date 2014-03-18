@@ -2,21 +2,37 @@ extends ../shared/template
 
 block content
   .row
-    .small-6.columns
+    .small-3.columns
+      h2= listing.name
       img(src= listing.cover).item-img-large
-    .small-6.columns
-      h1= listing.name
-      h2= listing.description
-      h2= listing.amount
-      h2= listing.address
-      
-      if currentUser.role == artist
-        form(action='/listings/reserve',  method='post')
-          label Reservation Date
-          input(type='date', name='reservedDate', required)
-          input(type='hidden', name='artistName', value= currentUser.name, required)
-          input(type='hidden', name='listingId', value= listing._id, required)
+    .small-9.columns
+      #infoWrap
+        h4 Address: #{listing.address}
+        h4 Day Rate: $#{listing.amount}
+        p= listing.description
+        if currentUser
+          if currentUser.role == 'artist'
+            form(action='/listings/reserve',  method='post')
+              label Reservation Date
+              input(type='date', name='reservedDate', required)
+              input(type='hidden', name='artistName', value= currentUser.name)
+              input(type='hidden', name='listingId', value= listing._id)
 
-          button.medium.radius Reserve
+              button.medium.radius Reserve
+
+          if currentUser.role == 'owner'
+            form(action='/listings/photo/' + listing._id,  method='post', enctype='multipart/form-data')
+              label Add a photo
+              input(type='file', name='photo', required)
+              button.medium.radius Add
+        div
+          ul.clearing-thumbs(data-clearing)
+            each photo in listing.photoPaths 
+              li
+                a(href= photo): img.th.borderStyle(src= photo)
+      //
+        ul.clearing-thumbs(data-clearing)
+          li
+            a(href= listing.photoPaths[i]): img(src= listing.photoPaths[i])
 
 block scripts

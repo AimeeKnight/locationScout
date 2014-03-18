@@ -1,25 +1,24 @@
 extends ../shared/template
 
 block content
-  h1= title
-
-  form(method='post', action='/listings', enctype='multipart/form-data')
-    fieldset
-      label Name
-      input(type='text', name='name')
-      label Address
-      input(type='text', name='address')
-      label Day Rate
-      input(name='amount', type='text', placeholder='USD', required)
-      label Dates Available
-      input(name='reservations', type='date', placeholder='', required)
-      input(type='hidden', name='lat')
-      input(type='hidden', name='lng')
-      label Photo
-      input(name='cover', type='file', required)
-      label Describe Your Listing
-      textarea(name='description', cols='500', rows='15', placeholder='Tell us about your property!', required)
-      button#create Create Listing
+  .row
+    .small-8.columns.small-centered
+      h2 Create a new listing!
+      form.formStyle(method='post', action='/listings', enctype='multipart/form-data')
+        fieldset
+          label Name
+          input(type='text', name='name', autofocus=true)
+          label Address
+          input(type='text', name='address', required)
+          input(type='hidden', name='lat')
+          input(type='hidden', name='lng')
+          label Day Rate
+          input(name='amount', type='text', placeholder='USD', required)
+          label Photo
+          input(name='cover', type='file', required)
+          label Describe Your Listing
+          textarea(name='description', cols='500', rows='8', placeholder='Tell us about your property!', required)
+          button#create.radius Create Listing
 
 block scripts
   script(src='/js/source/new-listing.js')
