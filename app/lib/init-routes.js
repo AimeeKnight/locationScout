@@ -68,8 +68,6 @@ function load(app, fn){
   app.post('/listings/photo/:id', d, listings.addPhoto);
   app.post('/listings/reserve', d, listings.reserve);
   app.get('/listings', d, listings.index);
-  app.get('/testArtist', d, users.testLoginArtist);
-  app.get('/testOwner', d, users.testLoginOwner);
   app.post('/listings', d, listings.create);
   app.get('/listings/new', ensureAuthenticated, listings.new);
   app.post('/updateUser', d, users.create);
