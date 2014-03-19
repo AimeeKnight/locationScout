@@ -109,6 +109,31 @@ Listing.findByGeo = function(query, fn){
   });
 };
 
+Listing.findByGeoPaging = function(query, fn){
+  console.log('query in findBy Geo Paging');
+  console.log(query);
+  var limit, page;
+  var lat = parseInt(query.lat) || 36;    //set default for paging index
+  var lng = parseInt(query.lng) || -86;
+
+  if(!query.limit){
+    limit = 10;     //SETS DEFAULT FOR PAGING
+  }else{
+    limit = parseInt(query.limit);
+  }
+  page = parseInt(query.page - 1);
+
+  var options = {'limit': limit, 'skip': (limit*page)};
+  var data = {'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 25000000}};
+  console.log('data');
+  console.log(data);
+  listings.find(data, options).toArray(function(err, records){
+    console.log('records');
+    console.log(records);
+    fn(records);
+  });
+};
+
 Listing.prototype.addCover = function(oldpath){
   var dirname = this.name.replace(/\W/g,'').toLowerCase();
   var abspath = __dirname + '/../static';

@@ -3,6 +3,20 @@ extends ../shared/template
 block content
   h1= title
   #map
+  .row
+      .small-3.columns
+        ul.button-group.round
+          li: button#prev.tiny.radius Previous
+          li: button#next.tiny.radius &nbsp;&nbsp;&nbsp;Next&nbsp;&nbsp;&nbsp;&nbsp;
+      .small-6.columns
+        .row.collapse
+              .small-3.columns
+                label Per Page
+                input#limit(type='text' value= globalLimit)
+              .small-3.columns
+                label &nbsp;
+                button#limitButton.button.postfix.tiny.radius Show
+      .small-3.columns
 
   button#search.tiny.radius.alert(style='display:none;') Find closest to me!
 

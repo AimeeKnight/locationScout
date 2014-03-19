@@ -17,12 +17,33 @@
     }
     findMyLocation();
     $('#search').click(clickSearch);
+    $('#limitButton').click(limitItems);
+    $('#prev').click(prevPage);
+    $('#next').click(nextPage);
+  }
+
+    //--------PAGING--------------//
+  function nextPage(){
+    var limitVal = $('#limit').val();
+    window.location.href = ('/listings/paging?lat='+lat+'&lng='+lng+'&limit='+limitVal+'&move=next');
+  }
+
+  function prevPage(){
+    var limitVal = $('#limit').val();
+    window.location.href = ('/listings/paging?lat='+lat+'&lng='+lng+'&limit='+limitVal+'&move=prev');
+  }
+
+  function limitItems(){
+    var limitVal = $('#limit').val();
+    window.location.href = ('/listings/paging?lat='+lat+'&lng='+lng+'&limit='+limitVal);
   }
 
   function clickSearch(){
-    window.location.href = ('/listings/query?lat='+lat+'&lng='+lng);
+    var limitVal = $('#limit').val();
+    window.location.href = ('/listings/paging?lat='+lat+'&lng='+lng+'&limit='+limitVal);
   }
 
+    //------------GOOGLE--------------//
   function findMyLocation(){
     getLocation();
   }

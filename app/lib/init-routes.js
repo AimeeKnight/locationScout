@@ -66,21 +66,21 @@ function load(app, fn){
   });
 
   //--------users----------------//
-  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
   app.post('/updateUser', d, ensureAuthenticated, users.create);
   app.get('/updateUser', d, ensureAuthenticated, users.update);
+  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
 
   //-------listings--------------//
   app.get('/listings', d, listings.index);
   app.get('/listings/query', d, listings.query);
   app.get('/listings/new', ensureAuthenticated, listings.new);
-  app.get('/listings/:id', d, ensureAuthenticated, listings.show);
+  app.get('/listings/paging', d, listings.indexPaging);
   app.post('/listings', d, listings.create);
   app.post('/listings/photo/:id', d, listings.addPhoto);
   app.post('/listings/reserve', d, listings.reserve);
-  //app.get('/listings/filter', d, listings.new);
-  app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
   app.post('/logout', d, users.logout);
+  app.get('/listings/:id', d, ensureAuthenticated, listings.show);
+  app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
 
   //-------logout----------------//
   app.get('/logout', function(req, res){

@@ -2,10 +2,7 @@
 
 var Listing = require('../models/listing');
 var User = require('../models/user');
-//var request = require('request');
-//var fs = require('fs');
 var Mongo = require('mongodb');
-//var _ = require('lodash');
 
 exports.new = function(req, res){
   res.render('listings/new', {user:req.user});
@@ -20,6 +17,32 @@ exports.index = function(req, res){
 exports.query = function(req, res){
   Listing.findByGeo(req.query, function(listings){
     res.render('listings/index', {user:req.user, title:'Listings Closest To You', listings:listings});
+  });
+};
+
+
+//DEFAULTS FOR PAGE AND LIMIT... default for limit also set in listings model
+var globalPage = 1;
+var globalLimit = 10;
+var defaultLimit = 10;
+
+exports.indexPaging = function(req, res){
+  if(req.query.move === 'next'){
+    globalPage ++;
+  }else if(req.query.move === 'prev'){
+    globalPage --;
+  }else{
+    globalPage = 1;
+  }
+
+  globalLimit = req.query.limit || defaultLimit;
+
+  req.query.page = req.query.page || globalPage;
+
+  Listing.findByGeoPaging(req.query, function(listings){
+    console.log('req.query in findByGeo Paging');
+    console.log(req.query);
+    res.render('listings/index', {user:req.user, title:'Listings Closest To You With Paging', listings:listings, globalLimit:globalLimit});
   });
 };
 
