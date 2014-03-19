@@ -113,7 +113,7 @@ Listing.findByGeoPaging = function(query, fn){
   console.log('query in findBy Geo Paging');
   console.log(query);
   var limit, page;
-  var lat = parseInt(query.lat) || 36;    //set default for paging index
+  var lat = parseInt(query.lat) || 36;    //set lat and long default for paging index
   var lng = parseInt(query.lng) || -86;
 
   if(!query.limit){
@@ -127,6 +127,8 @@ Listing.findByGeoPaging = function(query, fn){
   var data = {'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 25000000}};
   console.log('data');
   console.log(data);
+  console.log('options');
+  console.log(options);
   listings.find(data, options).toArray(function(err, records){
     console.log('records');
     console.log(records);

@@ -10,10 +10,11 @@ exports.new = function(req, res){
 
 exports.index = function(req, res){
   Listing.findAll(function(listings){
-    res.render('listings/index', {user:req.user, title:'All Current Listings', listings:listings});
+    res.render('listings/index', {user:req.user, title:'All Current Listings', listings:listings, globalLimit:globalLimit});
   });
 };
 
+// I DONT THINK WE NEED THIS ROUTE
 exports.query = function(req, res){
   Listing.findByGeo(req.query, function(listings){
     res.render('listings/index', {user:req.user, title:'Listings Closest To You', listings:listings});
@@ -29,7 +30,7 @@ var defaultLimit = 10;
 exports.indexPaging = function(req, res){
   if(req.query.move === 'next'){
     globalPage ++;
-  }else if(req.query.move === 'prev'){
+  }else if(req.query.move === 'prev' && globalPage > 1){
     globalPage --;
   }else{
     globalPage = 1;
