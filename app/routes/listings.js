@@ -13,13 +13,13 @@ exports.new = function(req, res){
 
 exports.index = function(req, res){
   Listing.findAll(function(listings){
-    res.render('listings/index', {user:req.user, title:'Listings Index Page', listings:listings});
+    res.render('listings/index', {user:req.user, title:'All Current Listings', listings:listings});
   });
 };
 
 exports.query = function(req, res){
   Listing.findByGeo(req.query, function(listings){
-    res.send({listings:listings, user:req.user});
+    res.render('listings/index', {user:req.user, title:'Listings Closest To You', listings:listings});
   });
 };
 

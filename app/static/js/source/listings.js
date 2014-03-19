@@ -20,10 +20,7 @@
   }
 
   function clickSearch(){
-    var url = '/listings/query?lat=' + lat + '&lng=' + lng;
-    $.getJSON(url, function(data){
-      console.log(data);
-    });
+    window.location.href = ('/listings/query?lat='+lat+'&lng='+lng);
   }
 
   function findMyLocation(){
@@ -36,6 +33,8 @@
   }
 
   function geoSuccess(location) {
+    console.log('lat', lat);
+    console.log('lng', lng);
     lat = location.coords.latitude;
     lng = location.coords.longitude;
     $('#search').show();

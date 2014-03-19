@@ -15,8 +15,7 @@ function returnUser(){
 
 exports.create = function(req, res){
   User.update(req.user.facebookId, req.body.email, req.body.role, function(count){
-    req.session.user.
-    res.redirect('/listings', {user:req.user});
+    res.redirect('/listings');
   });
 };
 

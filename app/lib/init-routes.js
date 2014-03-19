@@ -28,7 +28,7 @@ function load(app, fn){
   passport.use(new FacebookStrategy({
       clientID: '1430897753818675',
       clientSecret: 'a1a805afc58ab0421b780187acd29a66',
-      callbackURL: 'http://192.168.11.98:4009/auth/facebook/callback'
+      callbackURL: 'http://10.0.1.13:4009/auth/facebook/callback'
     },
 
     function(accessToken, refreshToken, profile, done){
@@ -69,14 +69,14 @@ function load(app, fn){
   app.post('/listings/reserve', d, listings.reserve);
   app.get('/listings', d, listings.index);
   app.post('/listings', d, listings.create);
-  app.get('/listings/new', ensureAuthenticated, listings.new);
-  app.post('/updateUser', d, users.create);
+  app.get('/listings/new', ensureAuthenticated, bounce, listings.new);
+  app.post('/updateUser', d, ensureAuthenticated, users.create);
   app.get('/updateUser', d, ensureAuthenticated, users.update);
   //app.get('/listings/filter', d, listings.new);
   app.get('/listings/query', d, listings.query);
   app.get('/listings/:id', d, ensureAuthenticated, listings.show);
-  app.del('/listings/:id', d, /*ensureAuthenticated,*/ listings.destroy);
-  app.get('/users/:id', d, ensureAuthenticated, users.show);
+  app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
+  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
   app.post('/logout', d, users.logout);
   app.get('/logout', function(req, res){
     req.session.destroy(function(){
