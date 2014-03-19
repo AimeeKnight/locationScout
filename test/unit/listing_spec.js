@@ -158,7 +158,7 @@ describe('Listing', function(){
     });
   });
 
-  describe('.findByGeo', function(){
+  describe('.findByGeoPaging', function(){
     it('should find closest closet by location', function(done){
       l2 = new Listing({name:'Listing2',
                          ownerId:'222222222222222222222222',
@@ -175,7 +175,7 @@ describe('Listing', function(){
       l2.insert(function(listing2){
         l3.insert(function(listing3){
           var object = {lat: 32, lng:-85};
-          Listing.findByGeo(object, function(records){
+          Listing.findByGeoPaging(object, function(records){
             expect(records[0].name).to.equal('Listing2');
             done();
           });

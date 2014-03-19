@@ -14,7 +14,7 @@ html(class='no-js', lang='en')
     nav.top-bar
       ul.title-area
         li.name
-          h1: a(href="/") Home
+          h1: a#homeNav(href="/") Home
         li.toggle-topbar.menu-icon
           a(href="#") Menu
 
@@ -22,11 +22,11 @@ html(class='no-js', lang='en')
         ul.left
         ul.right
           if user
-            li#welcomeNav: a(href='/users/'+user._id) Welcome, #{user.name}!
+            li: a#welcomeNav(href='/users/'+user._id) Welcome, #{user.name}!
             li.divider
             li: a#listingsNav(href="/listings") Listings
             li.divider
-            li#logoutNav: a(href="/logout") Logout
+            li: a#logoutNav(href="/logout") Logout
           else
             li.has-form: a(href='/auth/facebook').button.radius Facebook Login
           //
