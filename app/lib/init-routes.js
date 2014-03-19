@@ -66,8 +66,8 @@ function load(app, fn){
   });
 
   //--------users----------------//
-  //app.post('/updateUser', d, ensureAuthenticated, users.create);
-  //app.get('/updateUser', d, ensureAuthenticated, users.update);
+  app.post('/updateUser', d, ensureAuthenticated, users.create);
+  app.get('/updateUser', d, ensureAuthenticated, users.update);
   app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
 
   //-------listings--------------//

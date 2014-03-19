@@ -78,6 +78,26 @@ describe('User', function() {
     });
   });
 
+  describe('GET /updateUser', function(){
+    it('should display the users update page when logged in', function(done){
+
+      request(app)
+      .get('/updateUser')
+      .set('cookie', cookie)
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /updateUser', function(){
+    it('should not display the users update page when not logged in', function(done){
+
+      request(app)
+      .get('/updateUser')
+        .expect(302, done);
+    });
+  });
+
+
   describe('GET /logout', function(){
     it('should logout a user', function(done){
 

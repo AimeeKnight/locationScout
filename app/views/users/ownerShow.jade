@@ -14,13 +14,13 @@ block content
             a.button.tiny.radius(href='/listings/new') New Listing
       if listings
         h2(style='text-align:center') Current Listings
-      #infoWrap
+      #infoWrapOwner
         each listing in listings
           .row.panel.space
             .small-3.columns
               img(src= listing.cover).item-img-large
             .small-9.columns
-              a(href='/listings/' + listing._id): h3= listing.name
+              a(href='/listings/' + listing._id): h3.linkToListing= listing.name
               h4 Address: #{listing.address}
               h4 Day Rate: $#{listing.amount}
               p= listing.description

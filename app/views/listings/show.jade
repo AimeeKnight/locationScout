@@ -5,8 +5,7 @@ block content
     .small-3.columns
       h2= listing.name
       img(src= listing.cover).item-img-large
-    .small-9.columns
-      #infoWrap
+    .small-9.columns#infoWrap
         h4 Address: #{listing.address}
         h4 Day Rate: $#{listing.amount}
         p= listing.description
