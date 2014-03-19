@@ -52,14 +52,14 @@ exports.reserve = function(req, res){
   //listing id, date, artist name
   Listing.findById(req.body.listingId.toString(), function(listing){
     listing.reserveListing(req.body.artistName, req.session.passport.user._id , req.body.reservedDate, function(){
-      res.redirect('/');
+      res.redirect('/users/'+req.session.passport.user._id);
     });
   });
 };
 
 exports.destroy = function(req, res){
   Listing.deleteById(req.params.id, function(count){
-    res.redirect('users/' + req.session.passport.user._id);
+    res.redirect('/users/' + req.session.passport.user._id);
   });
 };
 

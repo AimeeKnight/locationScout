@@ -18,7 +18,7 @@ block content
         each listing in listings
           .row.panel.space
             .small-3.columns
-              div('background-img:url("#{listing.cover}")').item-img-large
+              div(style='background-image: url('+listing.cover+')').item-img-large
             .small-9.columns
               a(href='/listings/' + listing._id): h3.linkToListing= listing.name
               h4 Address: #{listing.address}

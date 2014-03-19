@@ -120,7 +120,7 @@ describe('User', function() {
   });
 
   describe('POST /listings/reserve', function(){
-    it('should create a new listing', function(done){
+    it('should create a new listing when logged in', function(done){
       var filename = __dirname + '/../fixtures/euro-copy1.jpg';
       request(app)
       .post('/listings')

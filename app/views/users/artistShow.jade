@@ -13,13 +13,15 @@ block content
             h5: a(href='mailto:'+artist.email+'')= artist.email
   .row
     .small-11.columns
-      each listing in listings
-        li
-          a(href='/listings/'+listing._id): span= listing.name
-          span - Address: #{listing.address}
-          span - Day Rate: $#{listing.amount}
+      h1 Reservations
+      ul
+        each listing in listings
+          li
+            h3: a(href='/listings/'+listing._id): span= listing.name
+            h4: Address: #{listing.address}
+            h4: Day Rate: $#{listing.amount}
 
-          h1 Reservations
-          each reservation in listing.reservations
-            span= reservation.reservedDate
+            ul
+              each reservation in listing.reservations
+                li= reservation.reservedDate.toDateString()
 
