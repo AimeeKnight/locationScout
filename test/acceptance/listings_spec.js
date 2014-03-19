@@ -10,7 +10,6 @@ var request = require('supertest');
 var User;
 var Listing;
 var userId;
-var userId2;
 var listingId;
 var cookie;
 
@@ -56,95 +55,52 @@ describe('User', function() {
   });
 
   beforeEach(function(done){
-    global.nss.db.dropDatabase(function(err, result){
     
-      app.get('/log-me-in-now', function(req, res){
-        app.use(passport.initialize());
-        app.use(passport.session());
-        req.session.passport.user = {};
-        res.send(200);
-      });
+    app.get('/log-me-in-now', function(req, res){
+      app.use(passport.initialize());
+      app.use(passport.session());
+      req.session.passport.user = {};
+      res.send(200);
+    });
+
+    request(app)
+    .get('/log-me-in-now')
+    .end(function(err, res){
+      cookie = res.headers['set-cookie'];
+      done();
+    });
+  });
+
+  describe('GET /listings/new', function(){
+    it('should display the listings page when logged in', function(done){
 
       request(app)
-      .get('/log-me-in-now')
-      .end(function(err, res){
-        cookie = res.headers['set-cookie'];
-
-        var u2 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'5678'});
-        u2.insert(function(user){
-          userId = user._id.toString();
-          var l1 = new Listing({name:'Listing2',
-                             ownerId:'222222222222222222222222',
-                             lat: '32',
-                             lng: '32',
-                             address: '123 Main St.',
-                             amount: 100});
-          l1.insert(function(listing){
-            listingId = listing._id.toString();
-            done();
-          });
-        });
-      });
+      .get('/listings/new/')
+      .set('cookie', cookie)
+      .expect(200, done);
     });
+  });
 
-    describe('GET /listings/new', function(){
-      it('should display the listings page when logged in', function(done){
-
-        request(app)
-        .get('/listings/new/')
-        .set('cookie', cookie)
-        .expect(200, done);
-      });
+  describe('GET /listings/:id', function(){
+    it('should display the listings page when logged in', function(done){
+      request(app)
+      .get('/listings/' + listingId)
+      .set('cookie', cookie)
+      .expect(200, done);
     });
+  });
 
-    describe('GET /listings/:id', function(){
-      it('should display the listings page when logged in', function(done){
-        var u2 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'9999999'});
-        u2.insert(function(user){
-          userId2 = user._id.toString();
-          var l1 = new Listing({name:'Listing2',
-                             ownerId:'222222222222222222222222',
-                             lat: '32',
-                             lng: '32',
-                             address: '123 Main St.',
-                             amount: 100});
-          l1.insert(function(listing){
-            listingId = listing._id.toString();
-            request(app)
-            .get('/listings/' + listingId)
-            .set('cookie', cookie)
-            .expect(200, done);
-          });
-        });
-      });
+  describe('GET /listings/reserve', function(){
+    it('should display the listings page when logged in', function(done){
+      request(app)
+      .post('/listings/reserve')
+      .set('cookie', cookie)
+      .field('reservedDate', '2012-10-10')
+      .field('artistName', 'Person1')
+      .field('listingId', listingId)
+      .expect(302, done);
     });
-
-    describe('GET /listings/reserve', function(){
-      it('should display the listings page when logged in', function(done){
-        var u2 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'77777777'});
-        u2.insert(function(user){
-          userId2 = user._id.toString();
-          var l1 = new Listing({name:'Listing2',
-                             ownerId:'222222222222222222222222',
-                             lat: '32',
-                             lng: '32',
-                             address: '123 Main St.',
-                             amount: 100});
-          l1.insert(function(listing){
-            listingId = listing._id.toString();
-            request(app)
-            .post('/listings/reserve')
-            .set('cookie', cookie)
-            .field('reservedDate', '2012-10-10')
-            .field('artistName', 'Person1')
-            .field('listingId', listingId)
-            .expect(302, done);
-
-          });
-        });
-      });
-    });
+  });
 
 //////////
-  });
 });
