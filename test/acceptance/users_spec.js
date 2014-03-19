@@ -68,4 +68,13 @@ describe('User', function() {
         .expect(200, done);
     });
   });
+
+  describe('GET /users/:id', function(){
+    it('should not display the user page when not logged in', function(done){
+
+      request(app)
+      .get('/users/' + userId)
+        .expect(302, done);
+    });
+  });
 });

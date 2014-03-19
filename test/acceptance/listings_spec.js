@@ -84,12 +84,21 @@ describe('User', function() {
   });
 
   describe('GET /listings/new', function(){
-    it('should display the listings page when logged in', function(done){
+    it('should display the new listings page when logged in', function(done){
 
       request(app)
       .get('/listings/new/')
       .set('cookie', cookie)
       .expect(200, done);
+    });
+  });
+
+  describe('GET /listings/new', function(){
+    it('should not display the new listings page when not logged in', function(done){
+
+      request(app)
+      .get('/listings/new/')
+      .expect(302, done);
     });
   });
 
@@ -99,6 +108,14 @@ describe('User', function() {
       .get('/listings/' + listingId)
       .set('cookie', cookie)
       .expect(200, done);
+    });
+  });
+
+  describe('GET /listings/:id', function(){
+    it('should not display the listings page when not logged in', function(done){
+      request(app)
+      .get('/listings/' + listingId)
+      .expect(302, done);
     });
   });
 
