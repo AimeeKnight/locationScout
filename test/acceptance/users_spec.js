@@ -43,35 +43,38 @@ describe('User', function() {
   });
 
   beforeEach(function(done){
-    global.nss.db.dropDatabase(function(err, result){
     
-      app.get('/log-me-in-now', function(req, res){
-        app.use(passport.initialize());
-        app.use(passport.session());
-        req.session.passport.user = {};
-        res.send(200);
-      });
-
-      request(app)
-      .get('/log-me-in-now')
-      .end(function(err, res){
-        cookie = res.headers['set-cookie'];
-        done();
-      });
+    app.get('/log-me-in-now', function(req, res){
+      app.use(passport.initialize());
+      app.use(passport.session());
+      req.session.passport.user = {};
+      res.send(200);
     });
 
-    describe('GET /users/:id', function(){
-      it('should display the user page when logged in', function(done){
-        var u1 = new User({role:'artist', email:'prince@aol.com', name:'Person1', facebookId:'888888'});
-        u1.insert(function(user){
-          userId = user._id.toString();
+    request(app)
+    .get('/log-me-in-now')
+    .end(function(err, res){
+      cookie = res.headers['set-cookie'];
+      done();
+    });
+  });
 
-          request(app)
-          .get('/users/' + userId)
-          .set('cookie', cookie)
-          .expect(200, done);
-        });
-      });
+  describe('GET /users/:id', function(){
+    it('should display the user page when logged in', function(done){
+
+      request(app)
+      .get('/users/' + userId)
+      .set('cookie', cookie)
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /users/:id', function(){
+    it('should not display the user page when not logged in', function(done){
+
+      request(app)
+      .get('/users/' + userId)
+        .expect(302, done);
     });
   });
 });

@@ -46,30 +46,3 @@ exports.logout = function(req, res){
     res.redirect('/');
   });
 };
-
-exports.testLoginArtist = function(req, res){
-  req.session.regenerate(function(){
-    req.session.passport.user = 'Jay Knight';
-    req.session.passport.facebookId = '123456789';
-    req.session.passport.name = 'Jay Knight';
-    req.session.passport.email = 'jayKnight@gmail.com';
-    req.session.passport.role = 'artist';
-    req.session.passport._id = 'zzzzzzzzzzzzzzzzzzzzzzzz';
-    req.session.save(function(){
-      res.redirect('/');
-    });
-  });
-};
-
-exports.testLoginOwner = function(req, res){
-  req.session.regenerate(function(){
-    req.session.facebookId = '987654321';
-    req.session.name = 'Tiffany Knight';
-    req.session.email = 'tiffany@gmail.com';
-    req.session.role = 'owner';
-    req.session._id = 'oooooooooooooooooooooooo';
-    req.session.save(function(){
-      res.redirect('/');
-    });
-  });
-};
