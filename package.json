@@ -39,8 +39,7 @@
     "supertest":            "*",
     "coveralls":            "*",
     "mocha-lcov-reporter":  "*",
-    "blanket":              "*",
-    "passport-stub-js":     "*"
+    "blanket":              "*"
   },
   "config": {
     "blanket": {
