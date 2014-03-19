@@ -3,6 +3,8 @@
 //var express = require('express');
 var passport = require('passport');
 var request = require('supertest');
+var fs = require('fs');
+var exec = require('child_process').exec;
 
 process.env.DBNAME = 'users-test';
 var app = require('../../app/app');
@@ -26,21 +28,31 @@ describe('User', function() {
   });
 
   beforeEach(function(done){
-    global.nss.db.dropDatabase(function(err, result){
-      app.use(passport.initialize());
-      app.use(passport.session());
-      var u1 = new User({role:'artist', email:'prince@aol.com', name:'Person1'});
-      u1.insert(function(user){
-        userId = user._id.toString();
-        var l1 = new Listing({name:'Listing2',
-                           ownerId:'222222222222222222222222',
-                           lat: '32',
-                           lng: '32',
-                           address: '123 Main St.',
-                           amount: 100});
-        l1.insert(function(listing){
-          listingId = listing._id.toString();
-          done();
+    var testdir = __dirname + '/../../app/static/img/listings/test*';
+    var cmd = 'rm -rf ' + testdir;
+
+    exec(cmd, function(){
+      var origfile = __dirname + '/../fixtures/euro.jpg';
+      var copy1file = __dirname + '/../fixtures/euro-copy1.jpg';
+      var copy2file = __dirname + '/../fixtures/euro-copy2.jpg';
+      fs.createReadStream(origfile).pipe(fs.createWriteStream(copy1file));
+      fs.createReadStream(origfile).pipe(fs.createWriteStream(copy2file));
+      global.nss.db.dropDatabase(function(err, result){
+        app.use(passport.initialize());
+        app.use(passport.session());
+        var u1 = new User({role:'artist', email:'prince@aol.com', name:'Person1'});
+        u1.insert(function(user){
+          userId = user._id.toString();
+          var l1 = new Listing({name:'Listing2',
+                             ownerId:'222222222222222222222222',
+                             lat: '32',
+                             lng: '32',
+                             address: '123 Main St.',
+                             amount: 100});
+          l1.insert(function(listing){
+            listingId = listing._id.toString();
+            done();
+          });
         });
       });
     });
@@ -90,8 +102,25 @@ describe('User', function() {
     });
   });
 
-  describe('GET /listings/reserve', function(){
-    it('should display the listings page when logged in', function(done){
+  describe('POST /listings/reserve', function(){
+    it('should create a new listing', function(done){
+      var filename = __dirname + '/../fixtures/euro-copy1.jpg';
+      request(app)
+      .post('/listings')
+      .set('cookie', cookie)
+      .field('name', 'Test Listing1')
+      .field('amount', 100)
+      .field('description', 'Listing1 Description')
+      .field('address', '123 Main Street')
+      .field('coordinates', [30, 30])
+      .field('ownerId', userId)
+      .attach('cover', filename)
+      .expect(302, done);
+    });
+  });
+
+  describe('POST /listings/reserve', function(){
+    it('should reserve a listing', function(done){
       request(app)
       .post('/listings/reserve')
       .set('cookie', cookie)
