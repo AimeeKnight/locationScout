@@ -57,27 +57,32 @@ function load(app, fn){
 
   app.get('/', d, home.index);
 
-  //facebook auth//
+  //--------facebook-Auth----------//
   app.get('/auth/facebook', passport.authenticate('facebook'));
   app.get('/auth/facebook/callback', d,
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
-    //Successful authentication, redirect home.
     res.redirect('/listings');
   });
-  app.post('/listings/photo/:id', d, listings.addPhoto);
-  app.post('/listings/reserve', d, listings.reserve);
-  app.get('/listings', d, listings.index);
-  app.post('/listings', d, listings.create);
-  app.get('/listings/new', ensureAuthenticated, bounce, listings.new);
+
+  //--------users----------------//
+  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
   app.post('/updateUser', d, ensureAuthenticated, users.create);
   app.get('/updateUser', d, ensureAuthenticated, users.update);
-  //app.get('/listings/filter', d, listings.new);
+
+  //-------listings--------------//
+  app.get('/listings', d, listings.index);
   app.get('/listings/query', d, listings.query);
+  app.get('/listings/new', ensureAuthenticated, listings.new);
   app.get('/listings/:id', d, ensureAuthenticated, listings.show);
+  app.post('/listings', d, listings.create);
+  app.post('/listings/photo/:id', d, listings.addPhoto);
+  app.post('/listings/reserve', d, listings.reserve);
+  //app.get('/listings/filter', d, listings.new);
   app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
-  app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
   app.post('/logout', d, users.logout);
+
+  //-------logout----------------//
   app.get('/logout', function(req, res){
     req.session.destroy(function(){
       res.redirect('/');
@@ -88,7 +93,6 @@ function load(app, fn){
 }
 
 function ensureAuthenticated(req, res, next) {
-  debugger;
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
 }

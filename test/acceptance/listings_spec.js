@@ -71,7 +71,7 @@ describe('User', function() {
     app.get('/log-me-in-now', function(req, res){
       app.use(passport.initialize());
       app.use(passport.session());
-      req.session.passport.user = {};
+      req.session.passport.user = {test:'test'};
       res.send(200);
     });
 
