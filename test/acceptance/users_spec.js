@@ -97,6 +97,16 @@ describe('User', function() {
     });
   });
 
+  describe('POST /updateUser', function(){
+    it('should update a user', function(done){
+      request(app)
+      .post('/updateUser')
+      .set('cookie', cookie)
+      .field('email', 'person1@example.com')
+      .field('role', 'owner')
+      .expect(302, done);
+    });
+  });
 
   describe('GET /logout', function(){
     it('should logout a user', function(done){
