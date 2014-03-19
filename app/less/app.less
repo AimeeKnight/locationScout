@@ -24,6 +24,10 @@ li{
   border-radius: @border-radius;
 }
 
+.space {
+  margin: 10px !important;
+}
+
 span {
   font-size: 16px;
 }
@@ -45,6 +49,8 @@ span {
   margin-right: 10px;
 }
 
+//---- Owner Show View ----//
+
 //---- Listings Index ----//
 
 #map{
@@ -56,21 +62,35 @@ span {
 
 #search {
   margin-left: 18px;
-  margin-top: 12px;
+  margin-top: 20px;
 }
 
 #list {
 }
 
-.listingDiv {
+.listingDiv2{
+  width: 250px;
+  height: 325px;
   float: left;
   margin: 5px;
+  margin: auto;
+  text-align: center;
+}
+
+.listingDiv {
+  width: 125px;
+  height: 125px;
+  float: left;
+  margin: 5px;
+  margin: auto;
+  text-align: center;
 }
 
 .indexPhoto {
   width: 75px;
   height: 75px;
   background-size: cover;
+  margin: auto;
 }
 
 //---- Listing Show Page ----//
@@ -85,8 +105,16 @@ span {
 
 .item-img-large {
   margin-top: 12px;
-  width: 250px important!;
-  height: 250px important!;
+  width: 250px !important;
+  height: 250px !important;
+  border-radius: @border-radius;
+  box-shadow: @box-shadow;
+}
+
+.item-img-medium {
+  margin-top: 12px;
+  width: 150px !important;
+  height: 150px !important;
   border-radius: @border-radius;
   box-shadow: @box-shadow;
 }

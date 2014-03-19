@@ -28,7 +28,7 @@ function load(app, fn){
   passport.use(new FacebookStrategy({
       clientID: '1430897753818675',
       clientSecret: 'a1a805afc58ab0421b780187acd29a66',
-      callbackURL: 'http://10.0.1.13:4009/auth/facebook/callback'
+      callbackURL: 'http://192.168.11.193:4009/auth/facebook/callback'
     },
 
     function(accessToken, refreshToken, profile, done){
@@ -71,15 +71,12 @@ function load(app, fn){
   app.get('/users/:id', d, ensureAuthenticated, bounce, users.show);
 
   //-------listings--------------//
-  app.get('/listings', d, listings.index);
-  app.get('/listings/query', d, listings.query);
+  app.get('/listings', d, listings.indexPaging);
   app.get('/listings/new', ensureAuthenticated, listings.new);
-  app.get('/listings/paging', d, listings.indexPaging);
+  app.get('/listings/:id', d, ensureAuthenticated, listings.show);
   app.post('/listings', d, listings.create);
   app.post('/listings/photo/:id', d, listings.addPhoto);
   app.post('/listings/reserve', d, listings.reserve);
-  app.post('/logout', d, users.logout);
-  app.get('/listings/:id', d, ensureAuthenticated, listings.show);
   app.del('/listings/:id', d, ensureAuthenticated, listings.destroy);
 
   //-------logout----------------//

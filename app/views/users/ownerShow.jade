@@ -12,26 +12,25 @@ block content
             h3= owner.name
             h5: a(href='mailto:owner.email')= owner.email
             a.button.tiny.radius(href='/listings/new') New Listing
-
-  .row
-    .small-11.columns
+      if listings
+        h2(style='text-align:center') Current Listings
+      #infoWrap
       each listing in listings
-        input.listingId(type='hidden', value= listing._id)
-        h5 Listing Name:  
-          span= listing.name
-        h5 Listing Amount: $ 
-          span= listing.amount  
-        h5 Listing Address:  
-          span= listing.address
-        h5 Listing Description:  
-          span= listing.description
-        if listings.reservations
-          h1 Reservations
-          each reservation in listing.reservations
-            .panel
-              h3 Artist Name:  
-                span= reservation.artistName
-              h3 Date: 
-                span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
+        .row.panel.space
+          .small-3.columns
+            img(src= listing.cover).item-img-large
+          .small-9.columns
+            h3= listing.name
+            h4 Address: #{listing.address}
+            h4 Day Rate: $#{listing.amount}
+            p= listing.description
+            if listings.reservations
+              h1 Reservations
+              each reservation in listing.reservations
+                .panel
+                  h3 Artist Name:  
+                    span= reservation.artistName
+                  h3 Date: 
+                    span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
 
 

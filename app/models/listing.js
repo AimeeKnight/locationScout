@@ -101,14 +101,6 @@ Listing.findReservationsByArtistId = function(id, fn){
   });
 };
 
-Listing.findByGeo = function(query, fn){
-  var lat = query.lat * 1;
-  var lng = query.lng * 1;
-  listings.find({'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 25000000}}).toArray(function(err, records){
-    fn(records);
-  });
-};
-
 Listing.findByGeoPaging = function(query, fn){
   console.log('query in findBy Geo Paging');
   console.log(query);
@@ -125,13 +117,7 @@ Listing.findByGeoPaging = function(query, fn){
 
   var options = {'limit': limit, 'skip': (limit*page)};
   var data = {'coordinates':{$nearSphere:{$geometry:{type:'Point', coordinates:[lat, lng]}}, $maxDistance : 25000000}};
-  console.log('data');
-  console.log(data);
-  console.log('options');
-  console.log(options);
   listings.find(data, options).toArray(function(err, records){
-    console.log('records');
-    console.log(records);
     fn(records);
   });
 };

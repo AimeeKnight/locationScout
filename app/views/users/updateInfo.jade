@@ -1,16 +1,22 @@
 extends ../shared/template
 
 block content
-  h1= title
+  .row
+    .small-8.small-centered.columns
+      h1= title
   
   .row
-    .small-6.small-centered.columns
-      form#infoForm(action='/updateUser', method='post')
-        h2 #{user.name}, please complete this form.
-        label Email
-          input(type='email', name='email', autofocus=true, required)
-        label Are you an Owner or Artist?
-          select#roleSelection(name='role')
-            option(value='owner') Owner
-            option(value='artist') Artist
-        button#updateBtn.tiny.radius Submit
+    .small-8.small-centered.columns
+       form#infoForm(action='/updateUser', method='post')
+         .row
+           .small-12.columns
+             h5 #{user.name}, please complete this form.
+             label Email
+             input(type='email', name='email', autofocus=true, required)
+         .row
+           .small-4.columns.left
+             label Are you an Owner or Artist?
+             select#roleSelection(name='role')
+               option(value='owner') Owner
+               option(value='artist') Artist
+             button#updateBtn.tiny.radius Submit

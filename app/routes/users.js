@@ -20,7 +20,7 @@ exports.create = function(req, res){
 };
 
 exports.update = function(req, res){
-  res.render('users/updateInfo', {title: 'Complete Account Registration', user:req.user});
+  res.render('users/updateInfo', {title: 'Complete Registration', user:req.user});
 };
 
 exports.show = function(req, res){

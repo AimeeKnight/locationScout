@@ -77,4 +77,13 @@ describe('User', function() {
         .expect(302, done);
     });
   });
+
+  describe('GET /logout', function(){
+    it('should logout a user', function(done){
+
+      request(app)
+      .get('/logout')
+        .expect(302, done);
+    });
+  });
 });

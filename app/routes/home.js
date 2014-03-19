@@ -7,6 +7,6 @@ exports.index = function(req, res){
   }else{
     login = false;
   }
-  res.render('home/index', {user:req.user, title: 'Express Template', login:login});
+  res.render('home/index', {user:req.user, title: 'Location Scout', login:login});
 };
 

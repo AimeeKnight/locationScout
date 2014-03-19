@@ -4,28 +4,14 @@ var Listing = require('../models/listing');
 var User = require('../models/user');
 var Mongo = require('mongodb');
 
-exports.new = function(req, res){
-  res.render('listings/new', {user:req.user});
-};
-
-exports.index = function(req, res){
-  Listing.findAll(function(listings){
-    res.render('listings/index', {user:req.user, title:'All Current Listings', listings:listings, globalLimit:globalLimit});
-  });
-};
-
-// I DONT THINK WE NEED THIS ROUTE
-exports.query = function(req, res){
-  Listing.findByGeo(req.query, function(listings){
-    res.render('listings/index', {user:req.user, title:'Listings Closest To You', listings:listings});
-  });
-};
-
-
 //DEFAULTS FOR PAGE AND LIMIT... default for limit also set in listings model
 var globalPage = 1;
 var globalLimit = 10;
 var defaultLimit = 10;
+
+exports.new = function(req, res){
+  res.render('listings/new', {user:req.user});
+};
 
 exports.indexPaging = function(req, res){
   if(req.query.move === 'next'){
@@ -41,9 +27,7 @@ exports.indexPaging = function(req, res){
   req.query.page = req.query.page || globalPage;
 
   Listing.findByGeoPaging(req.query, function(listings){
-    console.log('req.query in findByGeo Paging');
-    console.log(req.query);
-    res.render('listings/index', {user:req.user, title:'Listings Closest To You With Paging', listings:listings, globalLimit:globalLimit});
+    res.render('listings/index', {user:req.user, title:'Listings', listings:listings, globalLimit:globalLimit});
   });
 };
 
@@ -81,11 +65,8 @@ exports.destroy = function(req, res){
 
 exports.addPhoto = function(req, res){
   Listing.findById(req.params.id, function(record){
-    console.log('record before add photo', record);
     record.addPhoto(req.files.photo.path, req.files.photo.name, function(err){
-      console.log('record after add photo', record);
       record.updatePhotoArray(function(){
-        console.log('record after update Photo Array', record);
         res.redirect('/listings/'+req.params.id);
       });
     });
