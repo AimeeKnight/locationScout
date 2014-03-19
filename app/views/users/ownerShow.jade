@@ -15,22 +15,22 @@ block content
       if listings
         h2(style='text-align:center') Current Listings
       #infoWrap
-      each listing in listings
-        .row.panel.space
-          .small-3.columns
-            img(src= listing.cover).item-img-large
-          .small-9.columns
-            h3= listing.name
-            h4 Address: #{listing.address}
-            h4 Day Rate: $#{listing.amount}
-            p= listing.description
-            if listings.reservations
-              h1 Reservations
-              each reservation in listing.reservations
-                .panel
-                  h3 Artist Name:  
-                    span= reservation.artistName
-                  h3 Date: 
-                    span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
+        each listing in listings
+          .row.panel.space
+            .small-3.columns
+              img(src= listing.cover).item-img-large
+            .small-9.columns
+              a(href='/listings/' + listing._id): h3= listing.name
+              h4 Address: #{listing.address}
+              h4 Day Rate: $#{listing.amount}
+              p= listing.description
+              if listings.reservations
+                h1 Reservations
+                each reservation in listing.reservations
+                  .panel
+                    h3 Artist Name:  
+                      span= reservation.artistName
+                    h3 Date: 
+                      span= moment(reservation.reservedDate).format('MMMM Do, YYYY')
 
 
